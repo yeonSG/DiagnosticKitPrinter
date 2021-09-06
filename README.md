@@ -3,12 +3,15 @@
 
    ## 예상 시나리오
    1. 임베디드컴퓨터 디스플레이에서 Start버튼을 누른다. (트레이 3개가 들어가 있어야 버튼 Enabled됨)
-   2. Start명령이 MCU에 전달되고, 기계장치가 돌아가면서 Kit의 바코드값과 결과값 정보를 임베디드컴퓨터로 전송한다.
-   3. 전송받은 결과값을 프린터로 출력한다.
+   2. Start명령이 MCU에 전달됨
+   3. 기계장치가 돌아가면서 Kit의 위치를 대주면
+   4. 바코드 리더가 바코드값을 읽고, 기계장치는 결과값 정보(색상)을 읽어 임베디드컴퓨터로 전송한다.
+   5. 전송받은 결과값과 바코드 값을 프린터로 출력한다.
 
 # 시스템 구성
  - 써멀프린터 (HMK-054) [제품 링크](http://www.hwasungt.co.kr/?act=shop.goods_view&GS=13&GC=GD01), [메뉴얼 링크](http://www.hwasungt.co.kr/?act=board&bbs_code=sub4_1&bbs_mode=view&bbs_seq=32)
  - 임베디드컴퓨터&디스플래이 (IEC1000Lite-43) [제품 링크](https://www.hnsts.co.kr/Hardware/Iec1000), [메뉴얼 링크](https://www.hnsts.co.kr/UserFiles/attachment/data_down/1-iecseries.pdf)
+ - 바코드 리더(3310G 하니웰(USB)) [퀵 메뉴얼-kr](https://aidc.honeywell.com/CatalogDocuments/3310-KO-QS%20Rev%20C%201-13.pdf), [메뉴얼-en](https://www.honeywellaidc.com/ko-kr/-/media/en/files-public/technical-publications/barcode-scanners/vuquest-3310g/3310-ug.pdf)
  - MCU
  - 기계장치(모터 등등..)
 
@@ -22,12 +25,16 @@
       1. USB 드라이버 인식문제 (부팅 시 알수없는 USB 장치로 인식함)
       2. 제공되는 .dll 파일의 호환성 (확인결과 일반 windwos에서는 되는데, wince에서는 안되는 것 같음)
     - 즉 RS-232로 해야 할 듯함.
- - [ ] 코드 정리 (기존 프로젝트서 가저오기)
+ - [x] 코드 정리 (기존 프로젝트서 가저오기)
  - [ ] 코드 구성 설계
 
 # 기능개발
  - [ ] GUI 구성
- - [ ] Not defined
+ - [ ] 바코드 입력 처리부분 (키보드 입력에 대한 처리)
+ - [ ] Printer Comprot 연결 & 프로토콜 정의
+ - [ ] MCU Comport 연결 & 프로토콜 정의
+ - [ ] 설정파일 정리
+
 
 # 일정 
  - GUI 예상화면 보내기.

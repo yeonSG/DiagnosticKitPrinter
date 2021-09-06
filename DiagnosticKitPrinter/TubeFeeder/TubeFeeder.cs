@@ -100,7 +100,7 @@ namespace TubeFeeder
         {
             m_insertedItem = m_inputBuffer;
 
-            AddLog(m_insertedItem);   
+            AddLog(m_insertedItem);
 
             if (m_ScanLogFileManager.WriteValue(m_insertedItem) == false)
                 ErrorInfo("로그파일 쓰기 error");

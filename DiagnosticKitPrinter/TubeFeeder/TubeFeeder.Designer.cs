@@ -47,6 +47,9 @@
             this.smartLabel1 = new SmartX.SmartLabel();
             this.smartCheckBox1 = new SmartX.SmartCheckBox();
             this.smartCheckBox2 = new SmartX.SmartCheckBox();
+            this.smartListBox_log = new SmartX.SmartListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.smartForm1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,15 +76,16 @@
             this.btn_start.BackPictureBox = null;
             this.btn_start.BackPictureBox1 = null;
             this.btn_start.BackPictureBox2 = null;
-            this.btn_start.ButtonColor = System.Drawing.Color.DimGray;
+            this.btn_start.ButtonColor = System.Drawing.Color.Maroon;
             this.btn_start.ButtonImageAutoSize = false;
             this.btn_start.ColorKeySamplePosition = new System.Drawing.Point(0, 0);
             this.btn_start.DisableImage = null;
             this.btn_start.DownImage = ((System.Drawing.Image)(resources.GetObject("btn_start.DownImage")));
-            this.btn_start.Font = new System.Drawing.Font("Tahoma", 40F, System.Drawing.FontStyle.Bold);
+            this.btn_start.Font = new System.Drawing.Font("Tahoma", 23F, System.Drawing.FontStyle.Bold);
+            this.btn_start.ForeColor = System.Drawing.Color.White;
             this.btn_start.GroupID = 1;
             this.btn_start.InitVisible = true;
-            this.btn_start.Location = new System.Drawing.Point(0, 0);
+            this.btn_start.Location = new System.Drawing.Point(328, 10);
             this.btn_start.Mode = SmartX.SmartButton.BUTTONMODE.RADIO;
             this.btn_start.Name = "btn_start";
             this.btn_start.NestedClickEventPrevent = false;
@@ -89,15 +93,16 @@
             this.btn_start.RepeatInterval = 200;
             this.btn_start.RepeatIntervalAccelerate = null;
             this.btn_start.SafeInterval = 200;
-            this.btn_start.Size = new System.Drawing.Size(300, 136);
+            this.btn_start.Size = new System.Drawing.Size(140, 46);
             this.btn_start.SpecialFunction = SmartX.SmartButton.SPECIALFUNC.NONE;
             this.btn_start.TabIndex = 59;
-            this.btn_start.TextColor = System.Drawing.Color.Black;
-            this.btn_start.TextDownColor = System.Drawing.Color.White;
+            this.btn_start.Text = "시작";
+            this.btn_start.TextColor = System.Drawing.Color.White;
+            this.btn_start.TextDownColor = System.Drawing.Color.Black;
             this.btn_start.TextHAlign = SmartX.SmartButton.TextHorAlign.Middle;
             this.btn_start.TextLocation = new System.Drawing.Point(0, 0);
             this.btn_start.TextVAlign = SmartX.SmartButton.TextVerAlign.Middle;
-            this.btn_start.UpImage = ((System.Drawing.Image)(resources.GetObject("btn_start.UpImage")));
+            this.btn_start.UpImage = null;
             this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
             // btn_stop
@@ -105,15 +110,16 @@
             this.btn_stop.BackPictureBox = null;
             this.btn_stop.BackPictureBox1 = null;
             this.btn_stop.BackPictureBox2 = null;
-            this.btn_stop.ButtonColor = System.Drawing.Color.DimGray;
+            this.btn_stop.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btn_stop.ButtonImageAutoSize = true;
             this.btn_stop.ColorKeySamplePosition = new System.Drawing.Point(0, 0);
             this.btn_stop.DisableImage = null;
             this.btn_stop.DownImage = ((System.Drawing.Image)(resources.GetObject("btn_stop.DownImage")));
-            this.btn_stop.Font = new System.Drawing.Font("Tahoma", 40F, System.Drawing.FontStyle.Bold);
+            this.btn_stop.Font = new System.Drawing.Font("Tahoma", 23F, System.Drawing.FontStyle.Bold);
+            this.btn_stop.ForeColor = System.Drawing.Color.White;
             this.btn_stop.GroupID = 1;
             this.btn_stop.InitVisible = true;
-            this.btn_stop.Location = new System.Drawing.Point(0, 136);
+            this.btn_stop.Location = new System.Drawing.Point(328, 61);
             this.btn_stop.Mode = SmartX.SmartButton.BUTTONMODE.RADIO;
             this.btn_stop.Name = "btn_stop";
             this.btn_stop.NestedClickEventPrevent = false;
@@ -121,15 +127,16 @@
             this.btn_stop.RepeatInterval = 200;
             this.btn_stop.RepeatIntervalAccelerate = null;
             this.btn_stop.SafeInterval = 200;
-            this.btn_stop.Size = new System.Drawing.Size(300, 136);
+            this.btn_stop.Size = new System.Drawing.Size(140, 46);
             this.btn_stop.SpecialFunction = SmartX.SmartButton.SPECIALFUNC.NONE;
             this.btn_stop.TabIndex = 60;
-            this.btn_stop.TextColor = System.Drawing.Color.Black;
-            this.btn_stop.TextDownColor = System.Drawing.Color.White;
+            this.btn_stop.Text = "중지";
+            this.btn_stop.TextColor = System.Drawing.Color.White;
+            this.btn_stop.TextDownColor = System.Drawing.Color.Black;
             this.btn_stop.TextHAlign = SmartX.SmartButton.TextHorAlign.Middle;
             this.btn_stop.TextLocation = new System.Drawing.Point(0, 0);
             this.btn_stop.TextVAlign = SmartX.SmartButton.TextVerAlign.Middle;
-            this.btn_stop.UpImage = ((System.Drawing.Image)(resources.GetObject("btn_stop.UpImage")));
+            this.btn_stop.UpImage = null;
             this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
             // 
             // label_indicator
@@ -142,7 +149,7 @@
             this.label_indicator.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.label_indicator.InitVisible = true;
             this.label_indicator.LineSpacing = 0F;
-            this.label_indicator.Location = new System.Drawing.Point(320, 10);
+            this.label_indicator.Location = new System.Drawing.Point(328, 121);
             this.label_indicator.Name = "label_indicator";
             this.label_indicator.Size = new System.Drawing.Size(140, 133);
             this.label_indicator.TabIndex = 61;
@@ -171,7 +178,7 @@
             this.btn_Exit.DownImage = null;
             this.btn_Exit.GroupID = 0;
             this.btn_Exit.InitVisible = true;
-            this.btn_Exit.Location = new System.Drawing.Point(365, 185);
+            this.btn_Exit.Location = new System.Drawing.Point(206, 196);
             this.btn_Exit.Mode = SmartX.SmartButton.BUTTONMODE.NORMAL;
             this.btn_Exit.Name = "btn_Exit";
             this.btn_Exit.NestedClickEventPrevent = false;
@@ -205,7 +212,7 @@
             this.btn_logo_BIONIT.Enabled = false;
             this.btn_logo_BIONIT.GroupID = 0;
             this.btn_logo_BIONIT.InitVisible = true;
-            this.btn_logo_BIONIT.Location = new System.Drawing.Point(310, 235);
+            this.btn_logo_BIONIT.Location = new System.Drawing.Point(215, 234);
             this.btn_logo_BIONIT.Mode = SmartX.SmartButton.BUTTONMODE.NORMAL;
             this.btn_logo_BIONIT.Name = "btn_logo_BIONIT";
             this.btn_logo_BIONIT.NestedClickEventPrevent = false;
@@ -257,7 +264,7 @@
             this.smartLabel_VERSION.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.smartLabel_VERSION.InitVisible = true;
             this.smartLabel_VERSION.LineSpacing = 0F;
-            this.smartLabel_VERSION.Location = new System.Drawing.Point(423, 250);
+            this.smartLabel_VERSION.Location = new System.Drawing.Point(7, 251);
             this.smartLabel_VERSION.Name = "smartLabel_VERSION";
             this.smartLabel_VERSION.Size = new System.Drawing.Size(56, 18);
             this.smartLabel_VERSION.TabIndex = 90;
@@ -282,7 +289,7 @@
             this.smartButton3.ImageCheckBox = ((System.Drawing.Image)(resources.GetObject("smartButton3.ImageCheckBox")));
             this.smartButton3.ImageUnCheckBox = ((System.Drawing.Image)(resources.GetObject("smartButton3.ImageUnCheckBox")));
             this.smartButton3.InitVisible = true;
-            this.smartButton3.Location = new System.Drawing.Point(333, 35);
+            this.smartButton3.Location = new System.Drawing.Point(341, 146);
             this.smartButton3.Name = "smartButton3";
             this.smartButton3.Size = new System.Drawing.Size(103, 34);
             this.smartButton3.TabIndex = 97;
@@ -300,7 +307,7 @@
             this.smartLabel1.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.smartLabel1.InitVisible = true;
             this.smartLabel1.LineSpacing = 0F;
-            this.smartLabel1.Location = new System.Drawing.Point(350, 10);
+            this.smartLabel1.Location = new System.Drawing.Point(359, 124);
             this.smartLabel1.Name = "smartLabel1";
             this.smartLabel1.Size = new System.Drawing.Size(84, 29);
             this.smartLabel1.TabIndex = 99;
@@ -325,7 +332,7 @@
             this.smartCheckBox1.ImageCheckBox = ((System.Drawing.Image)(resources.GetObject("smartCheckBox1.ImageCheckBox")));
             this.smartCheckBox1.ImageUnCheckBox = ((System.Drawing.Image)(resources.GetObject("smartCheckBox1.ImageUnCheckBox")));
             this.smartCheckBox1.InitVisible = true;
-            this.smartCheckBox1.Location = new System.Drawing.Point(333, 66);
+            this.smartCheckBox1.Location = new System.Drawing.Point(341, 177);
             this.smartCheckBox1.Name = "smartCheckBox1";
             this.smartCheckBox1.Size = new System.Drawing.Size(103, 34);
             this.smartCheckBox1.TabIndex = 97;
@@ -348,12 +355,65 @@
             this.smartCheckBox2.ImageCheckBox = ((System.Drawing.Image)(resources.GetObject("smartCheckBox2.ImageCheckBox")));
             this.smartCheckBox2.ImageUnCheckBox = ((System.Drawing.Image)(resources.GetObject("smartCheckBox2.ImageUnCheckBox")));
             this.smartCheckBox2.InitVisible = true;
-            this.smartCheckBox2.Location = new System.Drawing.Point(333, 97);
+            this.smartCheckBox2.Location = new System.Drawing.Point(341, 208);
             this.smartCheckBox2.Name = "smartCheckBox2";
             this.smartCheckBox2.Size = new System.Drawing.Size(103, 34);
             this.smartCheckBox2.TabIndex = 97;
             this.smartCheckBox2.Text = "서랍3";
             this.smartCheckBox2.TextVAlign = SmartX.SmartCheckBox.TextVerAlign.Middle;
+            // 
+            // smartListBox_log
+            // 
+            this.smartListBox_log.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.smartListBox_log.BackPictureBox = null;
+            this.smartListBox_log.BackPictureBox1 = null;
+            this.smartListBox_log.BackPictureBox2 = null;
+            this.smartListBox_log.ColumnAlign = SmartX.SmartListBox.COLUMNALIGNS.CENTER;
+            this.smartListBox_log.ColumnDelimiter = '\0';
+            this.smartListBox_log.ColumnOffsets = null;
+            this.smartListBox_log.FontColor = System.Drawing.Color.Black;
+            this.smartListBox_log.InitVisible = true;
+            this.smartListBox_log.ItemAddOrder = SmartX.SmartListBox.ITEMADDORDERS.BOTTOMADD;
+            this.smartListBox_log.ItemOffsetGap = 0;
+            this.smartListBox_log.ItemOffsetX = 0;
+            this.smartListBox_log.ItemOffsetY = 0;
+            this.smartListBox_log.Location = new System.Drawing.Point(7, 40);
+            this.smartListBox_log.MouseMoveEventSpace = 3;
+            this.smartListBox_log.MouseMoveSpace = 10;
+            this.smartListBox_log.Name = "smartListBox_log";
+            this.smartListBox_log.OutLineColor = System.Drawing.SystemColors.ControlText;
+            this.smartListBox_log.SelectColor = System.Drawing.Color.Blue;
+            this.smartListBox_log.SelectFilled = true;
+            this.smartListBox_log.SelectFontColor = System.Drawing.Color.DarkBlue;
+            this.smartListBox_log.SelectItemIndex = -1;
+            this.smartListBox_log.SeparationlineColor1 = System.Drawing.Color.Gray;
+            this.smartListBox_log.SeparationlineColor2 = System.Drawing.Color.LightGray;
+            this.smartListBox_log.SeparationLineStyle = SmartX.SmartListBox.SEPARATIONLINETYPES.FixedSingle;
+            this.smartListBox_log.SeparationlineVisibleBottom = true;
+            this.smartListBox_log.SeparationlineVisibleTop = true;
+            this.smartListBox_log.Size = new System.Drawing.Size(305, 191);
+            this.smartListBox_log.TabIndex = 101;
+            this.smartListBox_log.Text = "LogListBox";
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.label1.Location = new System.Drawing.Point(107, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(131, 20);
+            this.label1.Text = "Data";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.label2.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.label2.Location = new System.Drawing.Point(7, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(94, 20);
+            this.label2.Text = "DateTime";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // Form1
             // 
@@ -361,6 +421,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(480, 272);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.smartListBox_log);
             this.Controls.Add(this.smartLabel1);
             this.Controls.Add(this.smartCheckBox2);
             this.Controls.Add(this.smartCheckBox1);
@@ -400,6 +463,9 @@
         private SmartX.SmartLabel smartLabel1;
         private SmartX.SmartCheckBox smartCheckBox1;
         private SmartX.SmartCheckBox smartCheckBox2;
+        private SmartX.SmartListBox smartListBox_log;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
