@@ -23,8 +23,8 @@ namespace TubeFeeder
     public class ThermalPrinter
     {
         /* 컴포트 설정 */
-        public String CONTROLBOARD_COMPORT = IniFileManager.GetComport_COM();
-        public int COM_BAUDRATE = IniFileManager.GetComport_BaudRate();
+        public String CONTROLBOARD_COMPORT = IniFileManager.GetComport_Printer_COM();
+        public int COM_BAUDRATE = IniFileManager.GetComport_Printer_BaudRate();
         public const int COM_DATABITS = 8;
         public const Parity COM_PARITY = Parity.None;
         public const StopBits COM_STOPBITS = StopBits.One;
@@ -35,10 +35,42 @@ namespace TubeFeeder
         private SerialPort m_serialPort = null;
         private MessageReciver m_messageReciver = null;
 
-        public static bool m_controlBoardConnected = false; // 컨트롤 보드 연결 성공 시 True
-
         public static PrinterState m_state = PrinterState.UNKNOWN;
 
+        public void sendTestMessage()
+        {
+            SendMessage(ThermalPrinterCommand.CMD_FONT_X2);
+            byte[] testByte = ThermalPrinterCommand.stringToByteArray("한글");
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CUT_PART);
+
+            // for log
+            byte[] msg = { 0x00, 0x00 };
+            msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_FONT_X2);
+            msg = ThermalPrinterCommand.concatArray(msg, testByte);
+            msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_CRLF);
+            msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_CRLF);
+            msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_CUT_PART);
+            string sendString = "[TX] ";
+            for (int i = 0; i < msg.Length; i++)
+            {
+                sendString += msg[i].ToString("X2") + " ";
+            }
+            logFunctionCallback(sendString);
+
+            // SmartX.SmartFile m_smartFile = m_smartFile = new SmartX.SmartFile();
+
+            // m_smartFile.FilePathName = "\\Flash Disk\\ErrorLog.txt";
+            // if (m_smartFile.Open() == true)
+            // {
+            //     m_smartFile.WriteString(sendString);
+            //     m_smartFile.Close();
+            // }
+            System.Windows.Forms.MessageBox.Show(sendString);
+        }
 
         public ThermalPrinter(SerialPort serialPort, SetTextCallback logFunction, ReciveMsgCallback reciveFunction)
         {
@@ -82,11 +114,6 @@ namespace TubeFeeder
             return m_serialPort.IsOpen;
         }
 
-        private void setBoardEnabled(bool enabled)
-        {
-            m_controlBoardConnected = enabled;
-        }
-
         public bool SendMessage(byte[] msg)
         {
             if (isOpen() == false)
@@ -105,7 +132,7 @@ namespace TubeFeeder
                 for (int i = 0; i < sendSize; i++ )
                 {
                     Wait.Start(10);      // MicroSec Sleep
-                    m_serialPort.Write(msg, i, 1);
+                    m_serialPort.Write(msg, i, 1);      // 1개씩 보냄
                 }
                  
                 string sendString = "[TX] ";
@@ -123,13 +150,5 @@ namespace TubeFeeder
             }
             return true;
         }
-
-        public void ProcessMessage(byte[] msg)
-        {
-            MessageProtocol.ReciveMessage ret = m_messageReciver.messageProcessing(msg);
-            reciveMsgCallback(ret);
-        }
-
-
     }
 }

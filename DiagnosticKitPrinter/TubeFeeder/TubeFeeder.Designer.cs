@@ -50,6 +50,7 @@
             this.smartListBox_log = new SmartX.SmartListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.serialPort2 = new System.IO.Ports.SerialPort(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.smartForm1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -415,6 +416,10 @@
             this.label2.Text = "DateTime";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // serialPort2
+            // 
+            this.serialPort2.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort2_DataReceived);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -466,6 +471,7 @@
         private SmartX.SmartListBox smartListBox_log;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.IO.Ports.SerialPort serialPort2;
     }
 }
 

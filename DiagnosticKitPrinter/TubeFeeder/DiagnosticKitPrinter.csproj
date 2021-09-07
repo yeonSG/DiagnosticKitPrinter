@@ -121,6 +121,7 @@
     <Compile Include="SettingValues.cs" />
     <Compile Include="Wait.cs" />
     <Compile Include="ThermalPrinter.cs" />
+    <Compile Include="ThermalPrinterCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="MSComDlg">

@@ -27,6 +27,7 @@ namespace TubeFeeder
 
         ScanLogFileManager m_ScanLogFileManager = new ScanLogFileManager();
         ControlBoard m_ControlBoard = null;
+        ThermalPrinter m_Printer = null;
 
         private string m_inputBuffer = "";
         private string m_insertedItem = "";
@@ -52,6 +53,7 @@ namespace TubeFeeder
             SetTextCallback logCallback = new SetTextCallback(AddLog_d);
             ReciveMsgCallback msgRecivCallback = new ReciveMsgCallback(msgRecive);
             m_ControlBoard = new ControlBoard(serialPort1, logCallback, msgRecivCallback);
+            m_Printer = new ThermalPrinter(serialPort2, logCallback, msgRecivCallback); // recive함수 안씀
 
             // ModeInit();
             ModeInit();
@@ -242,6 +244,29 @@ namespace TubeFeeder
             }
         }
 
+        // Printer에서 받은 데이터
+        private void serialPort2_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+        {
+            int recSize = serialPort2.BytesToRead;
+            string recString;
+
+            if (recSize != 0)
+            {
+                m_isRecivedFromCom = true;
+                recString = "Printer: [RX] ";
+                byte[] buff = new byte[recSize];
+
+                serialPort1.Read(buff, 0, recSize);                
+                for (int i = 0; i < recSize; i++)
+                {
+                    recString += buff[i].ToString("X2") + " ";
+
+                    reciveQueue.Enqueue(buff[i]);
+                }
+                AddLog_d(recString);
+            }
+        }
+
         private void SendPing()
         {
             m_ControlBoard.SendMessage( MessageGenerator.Meesage_Ping() );
@@ -321,6 +346,8 @@ namespace TubeFeeder
 
         private void btn_stop_Click(object sender, EventArgs e)
         {
+            m_Printer.sendTestMessage();
+
             m_ControlBoard.SendMessage(MessageGenerator.Meesage_DeviceStop());
             
             m_isOnError = false;
