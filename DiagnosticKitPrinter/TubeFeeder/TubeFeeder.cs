@@ -113,7 +113,18 @@ namespace TubeFeeder
 
         private void AddLog(string value)
         {
-            ;
+            if (this.smartListBox_log.InvokeRequired)
+            {
+                SetTextCallback dp = new SetTextCallback(AddLog);
+                this.Invoke(dp, new object[] { value });
+            }
+            else
+            {
+                smartListBox_log.AddItem("[" + DateTime.Now.ToLongTimeString() + "] " + value);
+
+                if (smartListBox_log.Items.Count() > 29)  // 리스트박스 아이탬 개수에 따라 다르게 설정해야함
+                    smartListBox_log.RemoveItem(0);
+            }
         }
 
         private void AddLog_d(string value)
@@ -121,6 +132,12 @@ namespace TubeFeeder
             if (m_debugMode != true)
                 return;
                 
+            if (this.smartListBox_log.InvokeRequired)
+            {
+                SetTextCallback dp = new SetTextCallback(AddLog_d);
+                this.Invoke(dp, new object[] { value });
+            }
+            else
             {
                 AddLog(value);
             }
