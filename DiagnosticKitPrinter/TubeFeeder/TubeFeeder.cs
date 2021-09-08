@@ -42,9 +42,13 @@ namespace TubeFeeder
         private bool m_isBarcodeReadMode_On = true; // 바코드 읽기모드 On
         private bool m_isAutoStopMode_On = true; // AutoStopMode On
 
+        private ResultManager m_resultManager;
+
         private SettingValues m_settingValues;
 
-        private Queue<byte> reciveQueue = new Queue<byte>();
+        private Queue<byte> reciveQueue_serial1 = new Queue<byte>();
+        private Queue<byte> reciveQueue_serial2 = new Queue<byte>();
+        
 
         public Form1()
         {
@@ -103,6 +107,8 @@ namespace TubeFeeder
             m_insertedItem = m_inputBuffer;
 
             AddLog(m_insertedItem);
+            
+            m_resultManager.setCurrentBarcode(m_insertedItem);
 
             if (m_ScanLogFileManager.WriteValue(m_insertedItem) == false)
                 ErrorInfo("로그파일 쓰기 error");
@@ -212,37 +218,37 @@ namespace TubeFeeder
                     {
                         recString += buff[i].ToString("X2") + " ";
 
-                        reciveQueue.Enqueue(buff[i]);
+                        reciveQueue_serial1.Enqueue(buff[i]);
                     }
                     AddLog_d(recString);
 
                     // 큐의 첫번째것이 HEADER일때까지 버림
-                    while (reciveQueue.Count != 0)
+                    while (reciveQueue_serial1.Count != 0)
                     {
-                        if (reciveQueue.Peek() == MessageProtocol.HEADER)
+                        if (reciveQueue_serial1.Peek() == MessageProtocol.HEADER)
                             break;
                         else
-                            reciveQueue.Dequeue();
+                            reciveQueue_serial1.Dequeue();
                     }
 
                     // 큐의 아이템이 7이상이어야 함
-                    while(reciveQueue.Count >= MessageProtocol.PROTOCOL_MESSAGE_SIZE)
+                    while(reciveQueue_serial1.Count >= MessageProtocol.PROTOCOL_MESSAGE_SIZE)
                     {
                         List<byte> message = new List<byte>();
                         for (int i = 0; i < MessageProtocol.PROTOCOL_MESSAGE_SIZE; i++)
                         {
-                            if (i != 0 && reciveQueue.Peek() == MessageProtocol.HEADER) // 인덱스0이 헤더가 아니면 거기서부터 다시
+                            if (i != 0 && reciveQueue_serial1.Peek() == MessageProtocol.HEADER) // 인덱스0이 헤더가 아니면 거기서부터 다시
                             {
                                 // Console.Write("broken Message!");
                                 break;
                             }
-                            if (i==6 && reciveQueue.Peek() != MessageProtocol.TAIL) // 테일에러
+                            if (i==6 && reciveQueue_serial1.Peek() != MessageProtocol.TAIL) // 테일에러
                             {
                                 // Console.Write("broken Message!");
                                 break;
                             }
                             else
-                                message.Add(reciveQueue.Dequeue());
+                                message.Add(reciveQueue_serial1.Dequeue());
                         }
 
                         if (message.Count == MessageProtocol.PROTOCOL_MESSAGE_SIZE)
@@ -278,7 +284,7 @@ namespace TubeFeeder
                 {
                     recString += buff[i].ToString("X2") + " ";
 
-                    reciveQueue.Enqueue(buff[i]);
+                    reciveQueue_serial2.Enqueue(buff[i]);
                 }
                 AddLog_d(recString);
             }
@@ -353,7 +359,7 @@ namespace TubeFeeder
 
         private void btn_start_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Application.Exit(); // test
             SendSettingValues(m_settingValues);     // setting값 보냄
 
             m_ControlBoard.SendMessage(MessageGenerator.Meesage_DeviceStart(m_isBarcodeReadMode_On, m_isAutoStopMode_On));

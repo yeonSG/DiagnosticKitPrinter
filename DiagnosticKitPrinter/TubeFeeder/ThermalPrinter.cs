@@ -10,6 +10,48 @@ namespace TubeFeeder
      * - Comport 연결관련 구현
      * - Message 프로토콜과 처리 관련된 구현
      */
+    public class ResultItem { 
+    	public string Barcode { get; set; }
+        public string Result { get; set; }
+
+        public ResultItem(string barcode, string result) {
+		    Barcode = barcode;
+		    result = result;
+	    }
+    }
+
+    public class ResultManager {
+        public const string RESULT_OK = "성공";
+        public const string RESULT_FAIL = "실패";
+
+        public List<ResultItem> resultItems;
+        public string currentBarcode;
+        public string currentResult;
+
+        public void setCurrentResult(bool result) {
+            if(result)
+                currentResult = RESULT_OK;
+            else
+                currentResult = RESULT_FAIL;
+            addListIfVailid();
+        }
+        public void setCurrentBarcode(string barcode) {
+            currentBarcode = barcode;
+            addListIfVailid();
+        }
+        public void clear() { resultItems.clear(); }
+
+        // 유효한지 채크함
+        private void addListIfVailid() {
+            if (String.IsNullOrEmpty(currentBarcode) || String.IsNullOrEmpty(currentResult))
+                return;
+            
+            // ex) list의 마지막 값과 barcode가 갖지않으면 추가함. 
+            if (true) {
+                resultItems.add(currentBarcode, currentResult);
+            }
+        }
+    }
     
     public enum PrinterState
     {
@@ -149,6 +191,25 @@ namespace TubeFeeder
                 return false;
             }
             return true;
+        }
+
+        public void PrintResult( List<ResultItem> resultArr) {
+            
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_FONT_X2);
+            for (int i=0; i<resultArr.Count; i++) {
+                byte[] value = ThermalPrinterCommand.stringToByteArray(resultArr[i].Barcode);
+                value += ThermalPrinterCommand.stringToByteArray(" ... ");
+                value += ThermalPrinterCommand.stringToByteArray(resultArr[i].Result);
+                SendMessage(value);
+                SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            }
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);    // 이부분 조절바람
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CUT_PART);
         }
     }
 }
