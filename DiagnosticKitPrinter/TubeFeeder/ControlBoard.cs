@@ -59,6 +59,7 @@ namespace TubeFeeder
             m_serialPort.Parity = COM_PARITY;
             m_serialPort.StopBits = COM_STOPBITS;
 
+            // System.Windows.Forms.MessageBox.Show("MCU:" + Open().ToString());
             Open();
         }
 

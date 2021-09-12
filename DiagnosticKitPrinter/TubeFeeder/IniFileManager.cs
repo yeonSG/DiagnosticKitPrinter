@@ -29,7 +29,7 @@ namespace TubeFeeder
         /* Default 값 */
         public const string SECTION_COMPORT_MCU_COM_DEFAULT = "COM4";
         public const int SECTION_COMPORT_MCU_BAUDRATE_DEFAULT = 115200;
-        public const string SECTION_COMPORT_PRINTER_COM_DEFAULT = "COM5";
+        public const string SECTION_COMPORT_PRINTER_COM_DEFAULT = "COM3";
         public const int SECTION_COMPORT_PRINTER_BAUDRATE_DEFAULT = 19200;
 
         public const string SECTION_LOGFILE_DIR_DEFAULT = "\\Flash Disk\\ScanLog";

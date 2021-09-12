@@ -369,7 +369,7 @@ namespace TubeFeeder
 
         private void btn_stop_Click(object sender, EventArgs e)
         {
-            m_Printer.sendTestMessage();
+            m_Printer.sendTestMessage_resultType();
 
             m_ControlBoard.SendMessage(MessageGenerator.Meesage_DeviceStop());
             
