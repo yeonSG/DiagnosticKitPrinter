@@ -21,35 +21,52 @@ namespace TubeFeeder
     }
 
     public class ResultManager {
-        public const string RESULT_OK = "성공";
-        public const string RESULT_FAIL = "실패";
+        public const string RESULT_POSITIVE = "(P)ositive";
+        public const string RESULT_NEGATIVE = "(N)egative";
+        public const string RESULT_NG = "N.G.";
 
-        public List<ResultItem> resultItems;
+        public List<ResultItem> resultItems = new List<ResultItem>();
         public string currentBarcode;
         public string currentResult;
 
-        public void setCurrentResult(bool result) {
-            if(result)
-                currentResult = RESULT_OK;
-            else
-                currentResult = RESULT_FAIL;
-            addListIfVailid();
+        public bool setCurrentResult(string result) {
+            currentResult = result;
+            return addListIfVailid();
         }
-        public void setCurrentBarcode(string barcode) {
+        public bool setCurrentBarcode(string barcode) {
             currentBarcode = barcode;
-            addListIfVailid();
+            return addListIfVailid();
         }
-        public void clear() { resultItems.Clear(); }
+        
+        public string getLastBarcode() {
+            if (resultItems.Count > 0)
+                return resultItems[resultItems.Count - 1].Barcode;
+            else
+                return "";
+        }
+        public string getLastResult() {
+            if (resultItems.Count > 0)
+                return resultItems[resultItems.Count-1].Result;
+            else
+                return "";
+        }
+
+        public void clear() {
+            resultItems.Clear(); 
+            currentBarcode = currentResult = "";
+        }
 
         // 유효한지 채크함
-        private void addListIfVailid() {
+        private bool addListIfVailid() {
             if (String.IsNullOrEmpty(currentBarcode) || String.IsNullOrEmpty(currentResult))
-                return;
+                return false;
             
             // ex) list의 마지막 값과 barcode가 갖지않으면 추가함. 
             if (true) {
                 resultItems.Add(new ResultItem(currentBarcode, currentResult));
+                currentBarcode = currentResult = "";
             }
+            return true;
         }
     }
     
@@ -233,7 +250,7 @@ namespace TubeFeeder
             return true;
         }
 
-        public void PrintResult( List<ResultItem> resultArr) {
+        public void PrintResult(List<ResultItem> resultArr) {
             
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
             SendMessage(ThermalPrinterCommand.CMD_FONT_X2);
@@ -245,6 +262,36 @@ namespace TubeFeeder
                 SendMessage(ThermalPrinterCommand.CMD_CRLF);
             }
             SendMessage(ThermalPrinterCommand.CMD_CRLF);    // 이부분 조절바람
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CUT_PART);
+        }
+
+        public void PrintResult(string barcode, string result)
+        {
+            byte[] testByte;
+            SendMessage(ThermalPrinterCommand.CMD_FONT_X1);
+            testByte = ThermalPrinterCommand.stringToByteArray("**********************************");
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Date\t\t : " + DateTime.Now.ToString("yyyy/MM/dd"));
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Time\t\t : " + String.Format("{0,2:N0}:{1,2:N0}:{2,2:N0}", DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Barcode\t\t : " + barcode);
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Result\t\t : " + result); // (P)ositive | (N)egative | N.G
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);         
+        }
+
+        public void cutPaper() {
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
