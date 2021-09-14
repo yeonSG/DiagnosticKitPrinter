@@ -53,7 +53,8 @@ namespace TubeFeeder
 
         public void clear() {
             resultItems.Clear(); 
-            currentBarcode = currentResult = "";
+            currentBarcode = "";
+            currentResult = "";
         }
 
         // 유효한지 채크함
@@ -89,7 +90,6 @@ namespace TubeFeeder
         public const StopBits COM_STOPBITS = StopBits.One;
 
         private SetTextCallback logFunctionCallback = null;
-        private ReciveMsgCallback reciveMsgCallback = null;
 
         private SerialPort m_serialPort = null;
         private MessageReciver m_messageReciver = null;
@@ -171,11 +171,10 @@ namespace TubeFeeder
             System.Windows.Forms.MessageBox.Show(sendString);
         }
 
-        public ThermalPrinter(SerialPort serialPort, SetTextCallback logFunction, ReciveMsgCallback reciveFunction)
+        public ThermalPrinter(SerialPort serialPort, SetTextCallback logFunction)
         {
             this.m_serialPort = serialPort;
             this.logFunctionCallback = logFunction;
-            this.reciveMsgCallback = reciveFunction;
             this.m_messageReciver = new MessageReciver(logFunction);
 
             Init();

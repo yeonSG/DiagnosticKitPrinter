@@ -55,6 +55,9 @@ namespace TubeFeeder
         public const byte CMD_INFORM_ACK = (byte)'A';
         public const byte CMD_INFORM_ERROR = (byte)'E';        
         public const byte CMD_INFORM_SETTING_CLOSE = (byte)'C';
+        public const byte CMD_INFORM_TRAY = (byte)'T';
+        public const byte CMD_INFORM_COLORSENSOR_RESULT = (byte)'R';
+        public const byte CMD_INFORM_END = (byte)'D';
 
         // 에러코드
         public const Byte ERRORCODE_SOMETHING_WRONG = 0x01;
@@ -71,6 +74,9 @@ namespace TubeFeeder
             inform_Ack,
             inform_Scanned,
             inform_Error,
+            inform_Tray,
+            inform_ColorSensorResult,
+            inform_End,
             write,
             read,
             unknown

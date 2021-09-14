@@ -41,10 +41,11 @@
             this.smartUpdate1 = new SmartX.SmartUpdate(this.components);
             this.smartTimer2 = new SmartX.SmartTimer(this.components);
             this.smartLabel_VERSION = new SmartX.SmartLabel();
-            this.smartButton3 = new SmartX.SmartCheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btn_tray1 = new SmartX.SmartCheckBox();
             this.smartLabel1 = new SmartX.SmartLabel();
-            this.smartCheckBox1 = new SmartX.SmartCheckBox();
-            this.smartCheckBox2 = new SmartX.SmartCheckBox();
+            this.btn_tray2 = new SmartX.SmartCheckBox();
+            this.btn_tray3 = new SmartX.SmartCheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.serialPort2 = new System.IO.Ports.SerialPort(this.components);
@@ -84,9 +85,9 @@
             this.label_indicator.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.label_indicator.InitVisible = true;
             this.label_indicator.LineSpacing = 0F;
-            this.label_indicator.Location = new System.Drawing.Point(327, 14);
+            this.label_indicator.Location = new System.Drawing.Point(346, 42);
             this.label_indicator.Name = "label_indicator";
-            this.label_indicator.Size = new System.Drawing.Size(140, 133);
+            this.label_indicator.Size = new System.Drawing.Size(25, 31);
             this.label_indicator.TabIndex = 61;
             this.label_indicator.TextHAlign = SmartX.SmartLabel.TextHorAlign.Left;
             this.label_indicator.TextVAlign = SmartX.SmartLabel.TextVerAlign.Top;
@@ -208,28 +209,38 @@
             this.smartLabel_VERSION.TextVAlign = SmartX.SmartLabel.TextVerAlign.Middle;
             this.smartLabel_VERSION.Wordwrap = false;
             // 
-            // smartButton3
+            // label3
             // 
-            this.smartButton3.BackColor = System.Drawing.Color.Gray;
-            this.smartButton3.BackPictureBox = null;
-            this.smartButton3.BackPictureBox1 = null;
-            this.smartButton3.BackPictureBox2 = null;
-            this.smartButton3.CheckBoxBackColor = System.Drawing.Color.White;
-            this.smartButton3.CheckBoxCheckColor = System.Drawing.Color.Green;
-            this.smartButton3.CheckBoxForeColor = System.Drawing.Color.Black;
-            this.smartButton3.CheckBoxSymbolSize = 14;
-            this.smartButton3.Checked = false;
-            this.smartButton3.CheckLineWidth = 3;
-            this.smartButton3.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular);
-            this.smartButton3.ImageCheckBox = ((System.Drawing.Image)(resources.GetObject("smartButton3.ImageCheckBox")));
-            this.smartButton3.ImageUnCheckBox = ((System.Drawing.Image)(resources.GetObject("smartButton3.ImageUnCheckBox")));
-            this.smartButton3.InitVisible = true;
-            this.smartButton3.Location = new System.Drawing.Point(340, 39);
-            this.smartButton3.Name = "smartButton3";
-            this.smartButton3.Size = new System.Drawing.Size(103, 34);
-            this.smartButton3.TabIndex = 97;
-            this.smartButton3.Text = "서랍1";
-            this.smartButton3.TextVAlign = SmartX.SmartCheckBox.TextVerAlign.Middle;
+            this.label3.BackColor = System.Drawing.Color.Gray;
+            this.label3.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.label3.Location = new System.Drawing.Point(322, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(149, 134);
+            this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // btn_tray1
+            // 
+            this.btn_tray1.BackColor = System.Drawing.Color.Gray;
+            this.btn_tray1.BackPictureBox = null;
+            this.btn_tray1.BackPictureBox1 = null;
+            this.btn_tray1.BackPictureBox2 = null;
+            this.btn_tray1.CheckBoxBackColor = System.Drawing.Color.White;
+            this.btn_tray1.CheckBoxCheckColor = System.Drawing.Color.Green;
+            this.btn_tray1.CheckBoxForeColor = System.Drawing.Color.Black;
+            this.btn_tray1.CheckBoxSymbolSize = 14;
+            this.btn_tray1.Checked = false;
+            this.btn_tray1.CheckLineWidth = 3;
+            this.btn_tray1.Enabled = false;
+            this.btn_tray1.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular);
+            this.btn_tray1.ImageCheckBox = ((System.Drawing.Image)(resources.GetObject("btn_tray1.ImageCheckBox")));
+            this.btn_tray1.ImageUnCheckBox = ((System.Drawing.Image)(resources.GetObject("btn_tray1.ImageUnCheckBox")));
+            this.btn_tray1.InitVisible = true;
+            this.btn_tray1.Location = new System.Drawing.Point(340, 41);
+            this.btn_tray1.Name = "btn_tray1";
+            this.btn_tray1.Size = new System.Drawing.Size(103, 34);
+            this.btn_tray1.TabIndex = 97;
+            this.btn_tray1.Text = "서랍1";
+            this.btn_tray1.TextVAlign = SmartX.SmartCheckBox.TextVerAlign.Middle;
             // 
             // smartLabel1
             // 
@@ -242,7 +253,7 @@
             this.smartLabel1.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.smartLabel1.InitVisible = true;
             this.smartLabel1.LineSpacing = 0F;
-            this.smartLabel1.Location = new System.Drawing.Point(358, 17);
+            this.smartLabel1.Location = new System.Drawing.Point(358, 15);
             this.smartLabel1.Name = "smartLabel1";
             this.smartLabel1.Size = new System.Drawing.Size(84, 29);
             this.smartLabel1.TabIndex = 99;
@@ -251,51 +262,53 @@
             this.smartLabel1.TextVAlign = SmartX.SmartLabel.TextVerAlign.Middle;
             this.smartLabel1.Wordwrap = false;
             // 
-            // smartCheckBox1
+            // btn_tray2
             // 
-            this.smartCheckBox1.BackColor = System.Drawing.Color.Gray;
-            this.smartCheckBox1.BackPictureBox = null;
-            this.smartCheckBox1.BackPictureBox1 = null;
-            this.smartCheckBox1.BackPictureBox2 = null;
-            this.smartCheckBox1.CheckBoxBackColor = System.Drawing.Color.White;
-            this.smartCheckBox1.CheckBoxCheckColor = System.Drawing.Color.Green;
-            this.smartCheckBox1.CheckBoxForeColor = System.Drawing.Color.Black;
-            this.smartCheckBox1.CheckBoxSymbolSize = 14;
-            this.smartCheckBox1.Checked = false;
-            this.smartCheckBox1.CheckLineWidth = 3;
-            this.smartCheckBox1.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular);
-            this.smartCheckBox1.ImageCheckBox = ((System.Drawing.Image)(resources.GetObject("smartCheckBox1.ImageCheckBox")));
-            this.smartCheckBox1.ImageUnCheckBox = ((System.Drawing.Image)(resources.GetObject("smartCheckBox1.ImageUnCheckBox")));
-            this.smartCheckBox1.InitVisible = true;
-            this.smartCheckBox1.Location = new System.Drawing.Point(340, 70);
-            this.smartCheckBox1.Name = "smartCheckBox1";
-            this.smartCheckBox1.Size = new System.Drawing.Size(103, 34);
-            this.smartCheckBox1.TabIndex = 97;
-            this.smartCheckBox1.Text = "서랍2";
-            this.smartCheckBox1.TextVAlign = SmartX.SmartCheckBox.TextVerAlign.Middle;
+            this.btn_tray2.BackColor = System.Drawing.Color.Gray;
+            this.btn_tray2.BackPictureBox = null;
+            this.btn_tray2.BackPictureBox1 = null;
+            this.btn_tray2.BackPictureBox2 = null;
+            this.btn_tray2.CheckBoxBackColor = System.Drawing.Color.White;
+            this.btn_tray2.CheckBoxCheckColor = System.Drawing.Color.Green;
+            this.btn_tray2.CheckBoxForeColor = System.Drawing.Color.Black;
+            this.btn_tray2.CheckBoxSymbolSize = 14;
+            this.btn_tray2.Checked = false;
+            this.btn_tray2.CheckLineWidth = 3;
+            this.btn_tray2.Enabled = false;
+            this.btn_tray2.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular);
+            this.btn_tray2.ImageCheckBox = ((System.Drawing.Image)(resources.GetObject("btn_tray2.ImageCheckBox")));
+            this.btn_tray2.ImageUnCheckBox = ((System.Drawing.Image)(resources.GetObject("btn_tray2.ImageUnCheckBox")));
+            this.btn_tray2.InitVisible = true;
+            this.btn_tray2.Location = new System.Drawing.Point(340, 72);
+            this.btn_tray2.Name = "btn_tray2";
+            this.btn_tray2.Size = new System.Drawing.Size(103, 34);
+            this.btn_tray2.TabIndex = 97;
+            this.btn_tray2.Text = "서랍2";
+            this.btn_tray2.TextVAlign = SmartX.SmartCheckBox.TextVerAlign.Middle;
             // 
-            // smartCheckBox2
+            // btn_tray3
             // 
-            this.smartCheckBox2.BackColor = System.Drawing.Color.Gray;
-            this.smartCheckBox2.BackPictureBox = null;
-            this.smartCheckBox2.BackPictureBox1 = null;
-            this.smartCheckBox2.BackPictureBox2 = null;
-            this.smartCheckBox2.CheckBoxBackColor = System.Drawing.Color.White;
-            this.smartCheckBox2.CheckBoxCheckColor = System.Drawing.Color.Green;
-            this.smartCheckBox2.CheckBoxForeColor = System.Drawing.Color.Black;
-            this.smartCheckBox2.CheckBoxSymbolSize = 14;
-            this.smartCheckBox2.Checked = false;
-            this.smartCheckBox2.CheckLineWidth = 3;
-            this.smartCheckBox2.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular);
-            this.smartCheckBox2.ImageCheckBox = ((System.Drawing.Image)(resources.GetObject("smartCheckBox2.ImageCheckBox")));
-            this.smartCheckBox2.ImageUnCheckBox = ((System.Drawing.Image)(resources.GetObject("smartCheckBox2.ImageUnCheckBox")));
-            this.smartCheckBox2.InitVisible = true;
-            this.smartCheckBox2.Location = new System.Drawing.Point(340, 101);
-            this.smartCheckBox2.Name = "smartCheckBox2";
-            this.smartCheckBox2.Size = new System.Drawing.Size(103, 34);
-            this.smartCheckBox2.TabIndex = 97;
-            this.smartCheckBox2.Text = "서랍3";
-            this.smartCheckBox2.TextVAlign = SmartX.SmartCheckBox.TextVerAlign.Middle;
+            this.btn_tray3.BackColor = System.Drawing.Color.Gray;
+            this.btn_tray3.BackPictureBox = null;
+            this.btn_tray3.BackPictureBox1 = null;
+            this.btn_tray3.BackPictureBox2 = null;
+            this.btn_tray3.CheckBoxBackColor = System.Drawing.Color.White;
+            this.btn_tray3.CheckBoxCheckColor = System.Drawing.Color.Green;
+            this.btn_tray3.CheckBoxForeColor = System.Drawing.Color.Black;
+            this.btn_tray3.CheckBoxSymbolSize = 14;
+            this.btn_tray3.Checked = false;
+            this.btn_tray3.CheckLineWidth = 3;
+            this.btn_tray3.Enabled = false;
+            this.btn_tray3.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular);
+            this.btn_tray3.ImageCheckBox = ((System.Drawing.Image)(resources.GetObject("btn_tray3.ImageCheckBox")));
+            this.btn_tray3.ImageUnCheckBox = ((System.Drawing.Image)(resources.GetObject("btn_tray3.ImageUnCheckBox")));
+            this.btn_tray3.InitVisible = true;
+            this.btn_tray3.Location = new System.Drawing.Point(340, 103);
+            this.btn_tray3.Name = "btn_tray3";
+            this.btn_tray3.Size = new System.Drawing.Size(103, 34);
+            this.btn_tray3.TabIndex = 97;
+            this.btn_tray3.Text = "서랍3";
+            this.btn_tray3.TextVAlign = SmartX.SmartCheckBox.TextVerAlign.Middle;
             // 
             // label1
             // 
@@ -498,13 +511,14 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.smartLabel1);
-            this.Controls.Add(this.smartCheckBox2);
-            this.Controls.Add(this.smartCheckBox1);
-            this.Controls.Add(this.smartButton3);
+            this.Controls.Add(this.btn_tray3);
+            this.Controls.Add(this.btn_tray2);
+            this.Controls.Add(this.btn_tray1);
             this.Controls.Add(this.smartLabel_VERSION);
             this.Controls.Add(this.btn_logo_BIONIT);
             this.Controls.Add(this.btn_Exit);
             this.Controls.Add(this.label_indicator);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.smartForm1);
             this.KeyPreview = true;
             this.Menu = this.mainMenu1;
@@ -528,10 +542,11 @@
         private SmartX.SmartUpdate smartUpdate1;
         private SmartX.SmartTimer smartTimer2;
         private SmartX.SmartLabel smartLabel_VERSION;
-        private SmartX.SmartCheckBox smartButton3;
+        private System.Windows.Forms.Label label3;
+        private SmartX.SmartCheckBox btn_tray1;
         private SmartX.SmartLabel smartLabel1;
-        private SmartX.SmartCheckBox smartCheckBox1;
-        private SmartX.SmartCheckBox smartCheckBox2;
+        private SmartX.SmartCheckBox btn_tray2;
+        private SmartX.SmartCheckBox btn_tray3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.IO.Ports.SerialPort serialPort2;
