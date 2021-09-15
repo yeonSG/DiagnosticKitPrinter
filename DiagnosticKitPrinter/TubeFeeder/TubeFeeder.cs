@@ -417,6 +417,7 @@ namespace TubeFeeder
         }
         private void doStop()
         {
+            m_Printer.cutPaper();
             m_resultManager.clear();
             // setIndicatorColor(Color.Gray);
         }
@@ -459,18 +460,30 @@ namespace TubeFeeder
                     Tray_update();
                     break;
                 case MessageProtocol.ReciveMessage.inform_ColorSensorResult:
-                    string result;
-                    if (data1 == 'P')
-                        result = ResultManager.RESULT_POSITIVE;
-                    else if(data1 == 'N')
-                        result = ResultManager.RESULT_POSITIVE;
-                    else
-                        result = ResultManager.RESULT_NG;
-
-                    bool isComplete = m_resultManager.setCurrentResult(result);
-                    if (isComplete)
                     {
-                        m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                        string result;
+                        if (data1 == 'P')
+                            result = ResultManager.RESULT_POSITIVE;
+                        else if (data1 == 'N')
+                            result = ResultManager.RESULT_POSITIVE;
+                        else
+                            result = ResultManager.RESULT_NG;
+
+                        bool isComplete = m_resultManager.setCurrentResult(result);
+                        if (isComplete)
+                        {
+                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                        }
+                    }
+                    break;
+                case MessageProtocol.ReciveMessage.inform_ColorSensorRawData:
+                    {
+                        string result = data1.ToString() + ", " + data2.ToString();
+                        bool isComplete = m_resultManager.setCurrentResult(result);
+                        if (isComplete)
+                        {
+                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                        }
                     }
                     break;
                 default:

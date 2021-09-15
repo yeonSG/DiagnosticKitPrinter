@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
@@ -77,11 +77,13 @@ namespace TubeFeeder
                             case MessageProtocol.CMD_INFORM_ERROR:
                                 // 에러코드 별로 처리 필요
                                 LogFunction("Recived : Inform_Error");
-                                return MessageProtocol.ReciveMessage.inform_Error;                                
+                                return MessageProtocol.ReciveMessage.inform_Error;
                             case MessageProtocol.CMD_INFORM_TRAY:
                                 return MessageProtocol.ReciveMessage.inform_Tray;
                             case MessageProtocol.CMD_INFORM_COLORSENSOR_RESULT:
                                 return MessageProtocol.ReciveMessage.inform_ColorSensorResult;
+                            case MessageProtocol.CMD_INFORM_COLORSENSOR_RAWDATA:
+                                return MessageProtocol.ReciveMessage.inform_ColorSensorRawData;
                             case MessageProtocol.CMD_INFORM_END:
                                 return MessageProtocol.ReciveMessage.inform_End;
                         }

@@ -57,6 +57,7 @@ namespace TubeFeeder
         public const byte CMD_INFORM_SETTING_CLOSE = (byte)'C';
         public const byte CMD_INFORM_TRAY = (byte)'T';
         public const byte CMD_INFORM_COLORSENSOR_RESULT = (byte)'R';
+        public const byte CMD_INFORM_COLORSENSOR_RAWDATA = (byte)'r';
         public const byte CMD_INFORM_END = (byte)'D';
 
         // 에러코드
@@ -76,6 +77,7 @@ namespace TubeFeeder
             inform_Error,
             inform_Tray,
             inform_ColorSensorResult,
+            inform_ColorSensorRawData,
             inform_End,
             write,
             read,
