@@ -13,7 +13,9 @@
  - 임베디드컴퓨터&디스플래이 (IEC1000Lite-43) [제품 링크](https://www.hnsts.co.kr/Hardware/Iec1000), [메뉴얼 링크](https://www.hnsts.co.kr/UserFiles/attachment/data_down/1-iecseries.pdf)
  - 바코드 리더(3310G 하니웰(USB)) [퀵 메뉴얼-kr](https://aidc.honeywell.com/CatalogDocuments/3310-KO-QS%20Rev%20C%201-13.pdf), [메뉴얼-en](https://www.honeywellaidc.com/ko-kr/-/media/en/files-public/technical-publications/barcode-scanners/vuquest-3310g/3310-ug.pdf)
  - MCU
- - 기계장치(모터 등등..)
+ - 기계장치(모터, 컬러센서, 트레이 센서 등등..)
+ - 트레이 센서 
+ - 컬러 센서
 
 # 개발준비
  - [x] 기계 인수

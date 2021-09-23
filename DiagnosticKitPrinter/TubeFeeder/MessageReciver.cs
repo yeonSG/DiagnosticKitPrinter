@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
@@ -47,6 +47,7 @@ namespace TubeFeeder
                     ControlBoard.m_controlBoardConnected = true;        // 또는 콜백함수
                     LogFunction("Recived : Ping");
                     return MessageProtocol.ReciveMessage.ping;
+
                 case MessageProtocol.CMD_ORDER:
                     LogFunction("Recived : Order");
                     {
@@ -62,6 +63,7 @@ namespace TubeFeeder
 
                     }
                     return MessageProtocol.ReciveMessage.order;
+
                 case MessageProtocol.CMD_INFORM:
                     {
                         switch (message[MessageProtocol.PROTOCOL_CMD_SUB])
@@ -76,12 +78,22 @@ namespace TubeFeeder
                                 // 에러코드 별로 처리 필요
                                 LogFunction("Recived : Inform_Error");
                                 return MessageProtocol.ReciveMessage.inform_Error;
+                            case MessageProtocol.CMD_INFORM_TRAY:
+                                return MessageProtocol.ReciveMessage.inform_Tray;
+                            case MessageProtocol.CMD_INFORM_COLORSENSOR_RESULT:
+                                return MessageProtocol.ReciveMessage.inform_ColorSensorResult;
+                            case MessageProtocol.CMD_INFORM_COLORSENSOR_RAWDATA:
+                                return MessageProtocol.ReciveMessage.inform_ColorSensorRawData;
+                            case MessageProtocol.CMD_INFORM_END:
+                                return MessageProtocol.ReciveMessage.inform_End;
                         }
                     }
                     break;
+
                 case MessageProtocol.CMD_WRITE:
                     LogFunction("Recived : Write");
                     return MessageProtocol.ReciveMessage.write;
+
                 case MessageProtocol.CMD_READ:
                     LogFunction("Recived : Read");
                     return MessageProtocol.ReciveMessage.read;

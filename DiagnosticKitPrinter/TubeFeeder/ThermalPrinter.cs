@@ -16,40 +16,58 @@ namespace TubeFeeder
 
         public ResultItem(string barcode, string result) {
 		    Barcode = barcode;
-		    result = result;
+            Result = result;
 	    }
     }
 
     public class ResultManager {
-        public const string RESULT_OK = "성공";
-        public const string RESULT_FAIL = "실패";
+        public const string RESULT_POSITIVE = "(P)ositive";
+        public const string RESULT_NEGATIVE = "(N)egative";
+        public const string RESULT_NG = "N.G.";
 
-        public List<ResultItem> resultItems;
+        public List<ResultItem> resultItems = new List<ResultItem>();
         public string currentBarcode;
         public string currentResult;
 
-        public void setCurrentResult(bool result) {
-            if(result)
-                currentResult = RESULT_OK;
-            else
-                currentResult = RESULT_FAIL;
-            addListIfVailid();
+        public bool setCurrentResult(string result) {
+            currentResult = result;
+            return addListIfVailid();
         }
-        public void setCurrentBarcode(string barcode) {
+        public bool setCurrentBarcode(string barcode) {
             currentBarcode = barcode;
-            addListIfVailid();
+            return addListIfVailid();
         }
-        public void clear() { resultItems.clear(); }
+        
+        public string getLastBarcode() {
+            if (resultItems.Count > 0)
+                return resultItems[resultItems.Count - 1].Barcode;
+            else
+                return "";
+        }
+        public string getLastResult() {
+            if (resultItems.Count > 0)
+                return resultItems[resultItems.Count-1].Result;
+            else
+                return "";
+        }
+
+        public void clear() {
+            resultItems.Clear(); 
+            currentBarcode = "";
+            currentResult = "";
+        }
 
         // 유효한지 채크함
-        private void addListIfVailid() {
+        private bool addListIfVailid() {
             if (String.IsNullOrEmpty(currentBarcode) || String.IsNullOrEmpty(currentResult))
-                return;
+                return false;
             
             // ex) list의 마지막 값과 barcode가 갖지않으면 추가함. 
             if (true) {
-                resultItems.add(currentBarcode, currentResult);
+                resultItems.Add(new ResultItem(currentBarcode, currentResult));
+                currentBarcode = currentResult = "";
             }
+            return true;
         }
     }
     
@@ -65,25 +83,60 @@ namespace TubeFeeder
     public class ThermalPrinter
     {
         /* 컴포트 설정 */
-        public String CONTROLBOARD_COMPORT = IniFileManager.GetComport_Printer_COM();
+        public String PRINTER_COMPORT = IniFileManager.GetComport_Printer_COM();
         public int COM_BAUDRATE = IniFileManager.GetComport_Printer_BaudRate();
         public const int COM_DATABITS = 8;
         public const Parity COM_PARITY = Parity.None;
         public const StopBits COM_STOPBITS = StopBits.One;
 
         private SetTextCallback logFunctionCallback = null;
-        private ReciveMsgCallback reciveMsgCallback = null;
 
         private SerialPort m_serialPort = null;
         private MessageReciver m_messageReciver = null;
 
         public static PrinterState m_state = PrinterState.UNKNOWN;
 
+
+        public void sendTestMessage_resultType()
+        {
+            byte[] testByte;
+            SendMessage(ThermalPrinterCommand.CMD_FONT_X1);
+            testByte = ThermalPrinterCommand.stringToByteArray("**********************************");
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Date\t\t : " + DateTime.Now.ToString("yyyy/MM/dd"));
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Time\t\t : " + String.Format("{0,2:N0}:{1,2:N0}:{2,2:N0}", DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Barcode\t\t : 123456789");
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Result\t\t : (P)ositive");
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CUT_PART);
+            
+        }
+
         public void sendTestMessage()
         {
-            SendMessage(ThermalPrinterCommand.CMD_FONT_X2);
-            byte[] testByte = ThermalPrinterCommand.stringToByteArray("한글");
+            byte[] testByte;
+            testByte = ThermalPrinterCommand.stringToByteArray("***** *****");
             SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_FONT_X2);
+            testByte = ThermalPrinterCommand.stringToByteArray("한글Test..");
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
@@ -93,6 +146,10 @@ namespace TubeFeeder
             byte[] msg = { 0x00, 0x00 };
             msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_FONT_X2);
             msg = ThermalPrinterCommand.concatArray(msg, testByte);
+            msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_CRLF);
+            msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_CRLF);
+            msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_CRLF);
+            msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_CRLF);
             msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_CRLF);
             msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_CRLF);
             msg = ThermalPrinterCommand.concatArray(msg, ThermalPrinterCommand.CMD_CUT_PART);
@@ -114,11 +171,10 @@ namespace TubeFeeder
             System.Windows.Forms.MessageBox.Show(sendString);
         }
 
-        public ThermalPrinter(SerialPort serialPort, SetTextCallback logFunction, ReciveMsgCallback reciveFunction)
+        public ThermalPrinter(SerialPort serialPort, SetTextCallback logFunction)
         {
             this.m_serialPort = serialPort;
             this.logFunctionCallback = logFunction;
-            this.reciveMsgCallback = reciveFunction;
             this.m_messageReciver = new MessageReciver(logFunction);
 
             Init();
@@ -127,7 +183,7 @@ namespace TubeFeeder
 
         private void Init()
         {
-            m_serialPort.PortName = CONTROLBOARD_COMPORT;
+            m_serialPort.PortName = PRINTER_COMPORT;
             m_serialPort.BaudRate = COM_BAUDRATE;
             m_serialPort.DataBits = COM_DATABITS;
             m_serialPort.Parity = COM_PARITY;
@@ -193,18 +249,48 @@ namespace TubeFeeder
             return true;
         }
 
-        public void PrintResult( List<ResultItem> resultArr) {
+        public void PrintResult(List<ResultItem> resultArr) {
             
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
             SendMessage(ThermalPrinterCommand.CMD_FONT_X2);
             for (int i=0; i<resultArr.Count; i++) {
                 byte[] value = ThermalPrinterCommand.stringToByteArray(resultArr[i].Barcode);
-                value += ThermalPrinterCommand.stringToByteArray(" ... ");
-                value += ThermalPrinterCommand.stringToByteArray(resultArr[i].Result);
+                value = ThermalPrinterCommand.concatArray(value, ThermalPrinterCommand.stringToByteArray(" ... "));
+                value = ThermalPrinterCommand.concatArray(value, ThermalPrinterCommand.stringToByteArray(resultArr[i].Result));
                 SendMessage(value);
                 SendMessage(ThermalPrinterCommand.CMD_CRLF);
             }
             SendMessage(ThermalPrinterCommand.CMD_CRLF);    // 이부분 조절바람
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CUT_PART);
+        }
+
+        public void PrintResult(string barcode, string result)
+        {
+            byte[] testByte;
+            SendMessage(ThermalPrinterCommand.CMD_FONT_X1);
+            testByte = ThermalPrinterCommand.stringToByteArray("**********************************");
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Date\t\t : " + DateTime.Now.ToString("yyyy/MM/dd"));
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Time\t\t : " + String.Format("{0,2:N0}:{1,2:N0}:{2,2:N0}", DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Barcode\t\t : " + barcode);
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("Result\t\t : " + result); // (P)ositive | (N)egative | N.G
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);         
+        }
+
+        public void cutPaper() {
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
             SendMessage(ThermalPrinterCommand.CMD_CRLF);

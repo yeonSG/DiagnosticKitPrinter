@@ -30,7 +30,6 @@ namespace TubeFeeder
         public const StopBits COM_STOPBITS = StopBits.One;
 
         private SetTextCallback logFunctionCallback = null;
-        private ReciveMsgCallback reciveMsgCallback = null;
 
         private SerialPort m_serialPort = null;
         private MessageReciver m_messageReciver = null;
@@ -40,15 +39,13 @@ namespace TubeFeeder
         public static ControlBoardState m_state = ControlBoardState.UNKNOWN;
 
 
-        public ControlBoard(SerialPort serialPort, SetTextCallback logFunction, ReciveMsgCallback reciveFunction)
+        public ControlBoard(SerialPort serialPort, SetTextCallback logFunction)
         {
             this.m_serialPort = serialPort;
             this.logFunctionCallback = logFunction;
-            this.reciveMsgCallback = reciveFunction;
             this.m_messageReciver = new MessageReciver(logFunction);
 
             Init();
-            
         }
 
         private void Init()
@@ -59,6 +56,7 @@ namespace TubeFeeder
             m_serialPort.Parity = COM_PARITY;
             m_serialPort.StopBits = COM_STOPBITS;
 
+            // System.Windows.Forms.MessageBox.Show("MCU:" + Open().ToString());
             Open();
         }
 
@@ -123,13 +121,5 @@ namespace TubeFeeder
             }
             return true;
         }
-
-        public void ProcessMessage(byte[] msg)
-        {
-            MessageProtocol.ReciveMessage ret = m_messageReciver.messageProcessing(msg);
-            reciveMsgCallback(ret);
-        }
-
-
     }
 }

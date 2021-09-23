@@ -27,6 +27,7 @@ namespace TubeFeeder
 
         ScanLogFileManager m_ScanLogFileManager = new ScanLogFileManager();
         ControlBoard m_ControlBoard = null;
+        MessageReciver m_messageReciver = null;
         ThermalPrinter m_Printer = null;
 
         private string m_inputBuffer = "";
@@ -55,9 +56,11 @@ namespace TubeFeeder
             InitializeComponent();
 
             SetTextCallback logCallback = new SetTextCallback(AddLog_d);
-            ReciveMsgCallback msgRecivCallback = new ReciveMsgCallback(msgRecive);
-            m_ControlBoard = new ControlBoard(serialPort1, logCallback, msgRecivCallback);
-            m_Printer = new ThermalPrinter(serialPort2, logCallback, msgRecivCallback); // recive함수 안씀
+            m_ControlBoard = new ControlBoard(serialPort1, logCallback);
+            m_messageReciver = new MessageReciver(logCallback);
+            m_Printer = new ThermalPrinter(serialPort2, logCallback); // recive함수 안씀
+
+            m_resultManager = new ResultManager();
 
             // ModeInit();
             ModeInit();
@@ -65,11 +68,17 @@ namespace TubeFeeder
             //SettingInit();
             SettingInit();
 
+            m_debugMode = IniFileManager.GetSetting_DebugMode();
+            if(m_debugMode)
+                DebugSetting();
 
             smartTimer1.Interval = 1000;    // 1000msec
             smartTimer1.Start();
             smartTimer2.Interval = 1000;    // 1000msec
             smartTimer2.Start();
+
+            // Request Tray
+            m_ControlBoard.SendMessage(MessageGenerator.Meesage_Read(MessageProtocol.CMD_INFORM_TRAY));
         }
 
         private void ModeInit()
@@ -85,6 +94,13 @@ namespace TubeFeeder
 
             // set for machine
             //SendSettingValues(settingValues);
+        }
+        
+        private void DebugSetting() {
+            btn_Exit.Visible = true;
+            btn_Test1.Visible = true;
+            btn_Test2.Visible = true;
+            btn_Test3.Visible = true;
         }
 
         private void SendSettingValues(SettingValues valueData)
@@ -108,7 +124,9 @@ namespace TubeFeeder
 
             AddLog(m_insertedItem);
             
-            m_resultManager.setCurrentBarcode(m_insertedItem);
+            bool isComplete = m_resultManager.setCurrentBarcode(m_insertedItem);
+            if(isComplete)
+                m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
 
             if (m_ScanLogFileManager.WriteValue(m_insertedItem) == false)
                 ErrorInfo("로그파일 쓰기 error");
@@ -119,18 +137,19 @@ namespace TubeFeeder
 
         private void AddLog(string value)
         {
-            if (this.smartListBox_log.InvokeRequired)
-            {
-                SetTextCallback dp = new SetTextCallback(AddLog);
-                this.Invoke(dp, new object[] { value });
-            }
-            else
-            {
-                smartListBox_log.AddItem("[" + DateTime.Now.ToLongTimeString() + "] " + value);
+            // if (this.smartListBox_log.InvokeRequired)
+            // {
+            //     SetTextCallback dp = new SetTextCallback(AddLog);
+            //     this.Invoke(dp, new object[] { value });
+            // }
+            // else
+            // {
+            //     smartListBox_log.AddItem("[" + DateTime.Now.ToLongTimeString() + "] " + value);
 
-                if (smartListBox_log.Items.Count() > 29)  // 리스트박스 아이탬 개수에 따라 다르게 설정해야함
-                    smartListBox_log.RemoveItem(0);
-            }
+            //     if (smartListBox_log.Items.Count() > 29)  // 리스트박스 아이탬 개수에 따라 다르게 설정해야함
+            //         smartListBox_log.RemoveItem(0);
+            // }
+            MessageBox.Show("log : " + value);
         }
 
         private void AddLog_d(string value)
@@ -138,12 +157,12 @@ namespace TubeFeeder
             if (m_debugMode != true)
                 return;
                 
-            if (this.smartListBox_log.InvokeRequired)
-            {
-                SetTextCallback dp = new SetTextCallback(AddLog_d);
-                this.Invoke(dp, new object[] { value });
-            }
-            else
+            // if (this.smartListBox_log.InvokeRequired)
+            // {
+            //     SetTextCallback dp = new SetTextCallback(AddLog_d);
+            //     this.Invoke(dp, new object[] { value });
+            // }
+            // else
             {
                 AddLog(value);
             }
@@ -260,7 +279,8 @@ namespace TubeFeeder
                             }
                             
                             byte[] myArryByte = message.ToArray();
-                            m_ControlBoard.ProcessMessage(myArryByte);
+                            MessageProtocol.ReciveMessage ret = m_messageReciver.messageProcessing(myArryByte);
+                            msgRecive(ret, myArryByte[3], myArryByte[4]);
                         }
                     }
                 }
@@ -359,17 +379,36 @@ namespace TubeFeeder
 
         private void btn_start_Click(object sender, EventArgs e)
         {
-            Application.Exit(); // test
-            SendSettingValues(m_settingValues);     // setting값 보냄
+            if (m_debugMode)
+            {
+                m_Printer.PrintResult("test", "result");    // test
+                return;
+                // Application.Exit(); // test
+            }
+            // SendSettingValues(m_settingValues);     // setting값 보냄
 
-            m_ControlBoard.SendMessage(MessageGenerator.Meesage_DeviceStart(m_isBarcodeReadMode_On, m_isAutoStopMode_On));
-            setIndicatorColor(Color.Green);
-            m_isOnError = false;
+            if (tray1State && tray2State && tray3State)
+            {
+                // m_ControlBoard.SendMessage(MessageGenerator.Meesage_DeviceStart(m_isBarcodeReadMode_On, m_isAutoStopMode_On));
+                m_ControlBoard.SendMessage(MessageGenerator.Meesage_DeviceStart());
+                // setIndicatorColor(Color.Green);
+                m_isOnError = false;
+            }
+            else
+            {
+                MessageBox.Show("Please Check Tray.");
+            }
         }
 
         private void btn_stop_Click(object sender, EventArgs e)
         {
-            m_Printer.sendTestMessage();
+            if (m_debugMode)
+            {
+                // m_Printer.sendTestMessage_resultType();
+                // m_Printer.PrintResult("test", "result");
+                m_Printer.cutPaper();
+                return;
+            }
 
             m_ControlBoard.SendMessage(MessageGenerator.Meesage_DeviceStop());
             
@@ -378,7 +417,9 @@ namespace TubeFeeder
         }
         private void doStop()
         {
-            setIndicatorColor(Color.Gray);
+            m_Printer.cutPaper();
+            m_resultManager.clear();
+            // setIndicatorColor(Color.Gray);
         }
 
 
@@ -395,7 +436,7 @@ namespace TubeFeeder
             }
         }
         
-        public void msgRecive(MessageProtocol.ReciveMessage reciveMsg)
+        public void msgRecive(MessageProtocol.ReciveMessage reciveMsg, byte data1, byte data2)
         {
             switch (reciveMsg)
             {
@@ -407,9 +448,43 @@ namespace TubeFeeder
                 case MessageProtocol.ReciveMessage.order_Start:
                     break;
                 case MessageProtocol.ReciveMessage.order_Stop:
+                case MessageProtocol.ReciveMessage.inform_End:
                     btnStop_buttonDown();
                     btnStart_buttonUp();
                     doStop();
+                    break;
+                case MessageProtocol.ReciveMessage.inform_Tray:
+                    tray1State = ((data1) & (byte)0x04) != 0;
+                    tray2State = ((data1) & (byte)0x02) != 0;
+                    tray3State = ((data1) & (byte)0x01) != 0;
+                    Tray_update();
+                    break;
+                case MessageProtocol.ReciveMessage.inform_ColorSensorResult:
+                    {
+                        string result;
+                        if (data1 == 'P')
+                            result = ResultManager.RESULT_POSITIVE;
+                        else if (data1 == 'N')
+                            result = ResultManager.RESULT_POSITIVE;
+                        else
+                            result = ResultManager.RESULT_NG;
+
+                        bool isComplete = m_resultManager.setCurrentResult(result);
+                        if (isComplete)
+                        {
+                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                        }
+                    }
+                    break;
+                case MessageProtocol.ReciveMessage.inform_ColorSensorRawData:
+                    {
+                        string result = data1.ToString() + ", " + data2.ToString();
+                        bool isComplete = m_resultManager.setCurrentResult(result);
+                        if (isComplete)
+                        {
+                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                        }
+                    }
                     break;
                 default:
                     break;
@@ -428,7 +503,6 @@ namespace TubeFeeder
             {
                 btn_start.ButtonUp();
             }
-
         }
         public void btnStop_buttonDown()
         {
@@ -525,6 +599,54 @@ namespace TubeFeeder
                 Application.Exit();
             }
         }
+
+        private void btn_Test1_Click(object sender, EventArgs e)
+        {
+            bool isComplete = m_resultManager.setCurrentResult(ResultManager.RESULT_POSITIVE);
+            if(isComplete)
+                m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+        }
+
+        /* TrayState */
+        public static bool tray1State = true;
+        public static bool tray2State = true;
+        public static bool tray3State = true;
+
+        public void Tray_update()
+        {
+            btn_tray1_update();
+            btn_tray2_update();
+            btn_tray3_update();
+        }
+
+        public void btn_tray1_update()
+        {
+            if (this.btn_tray1.InvokeRequired) {
+                SetCallback dp = new SetCallback(btn_tray1_update);
+                this.Invoke(dp, new object[] { });
+            } else {
+                btn_tray1.Checked = tray1State;
+            }
+        }
+        public void btn_tray2_update()
+        {
+            if (this.btn_tray2.InvokeRequired) {
+                SetCallback dp = new SetCallback(btn_tray2_update);
+                this.Invoke(dp, new object[] { });
+            } else {
+                btn_tray2.Checked = tray2State;
+            }
+        }
+        public void btn_tray3_update()
+        {
+            if (this.btn_tray3.InvokeRequired) {
+                SetCallback dp = new SetCallback(btn_tray3_update);
+                this.Invoke(dp, new object[] { });
+            } else {
+                btn_tray3.Checked = tray3State;
+            }
+        }
+
         // Ping
         // Value Write
         // Value Read

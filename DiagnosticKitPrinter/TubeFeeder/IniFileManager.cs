@@ -10,6 +10,7 @@ namespace TubeFeeder
         public const string SECTION_LOGFILE = "LOGFILE";
         public const string SECTION_MODE = "MODE";
         public const string SECTION_SETTING = "SETTING";
+        public const string SECTION_DEBUG = "DEBUG";
         
         public const string SECTION_COMPORT_MCU_COM = "MCU_COM";
         public const string SECTION_COMPORT_MCU_BAUDRATE = "MCU_BAUDRATE";
@@ -26,10 +27,12 @@ namespace TubeFeeder
         public const string SECTION_SETTING_XXAIXDISTANCE = "X_DISTANCE";
         public const string SECTION_SETTING_ROLLERSPEED = "CON_ROLLER_SPEED";
 
+        public const string SECTION_DEBUG_MODE = "DEBUGMODE";
+
         /* Default 값 */
         public const string SECTION_COMPORT_MCU_COM_DEFAULT = "COM4";
         public const int SECTION_COMPORT_MCU_BAUDRATE_DEFAULT = 115200;
-        public const string SECTION_COMPORT_PRINTER_COM_DEFAULT = "COM5";
+        public const string SECTION_COMPORT_PRINTER_COM_DEFAULT = "COM3";
         public const int SECTION_COMPORT_PRINTER_BAUDRATE_DEFAULT = 19200;
 
         public const string SECTION_LOGFILE_DIR_DEFAULT = "\\Flash Disk\\ScanLog";
@@ -40,6 +43,8 @@ namespace TubeFeeder
         public const int SECTION_SETTING_CONVEYERSPEED_DEFAULT = 3;
         public const int SECTION_SETTING_XXAIXDISTANCE_DEFAULT = 7;
         public const int SECTION_SETTING_ROLLERSPEED_DEFAULT = 2;
+
+        public const bool SECTION_DEBUG_MODE_DEFAULT = false;
 
         public static string GetComport_MCU_COM()
         {
@@ -88,6 +93,12 @@ namespace TubeFeeder
             return IniFile.ReadInteger(INIFILE_PATH, SECTION_SETTING, SECTION_SETTING_ROLLERSPEED, SECTION_SETTING_ROLLERSPEED_DEFAULT);
         }
 
+        // Debug
+        public static bool GetSetting_DebugMode()
+        {
+            return IniFile.ReadBool(INIFILE_PATH, SECTION_DEBUG, SECTION_DEBUG_MODE, SECTION_DEBUG_MODE_DEFAULT);
+        }
+
         public static void IniFileExistCheckAndGenerateDefaultIniFIle()
         {
             if (IniFileExistCheck() == false)
@@ -116,6 +127,7 @@ namespace TubeFeeder
             IniFile.WriteInteger(INIFILE_PATH, SECTION_SETTING, SECTION_SETTING_XXAIXDISTANCE, SECTION_SETTING_XXAIXDISTANCE_DEFAULT);
             IniFile.WriteInteger(INIFILE_PATH, SECTION_SETTING, SECTION_SETTING_ROLLERSPEED, SECTION_SETTING_ROLLERSPEED_DEFAULT);
 
+            IniFile.WriteBool(INIFILE_PATH, SECTION_DEBUG, SECTION_DEBUG_MODE, SECTION_DEBUG_MODE_DEFAULT);
         }
 
         // Mode
