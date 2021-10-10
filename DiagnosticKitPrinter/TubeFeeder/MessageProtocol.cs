@@ -74,7 +74,7 @@ namespace TubeFeeder
             order_Start,
             order_Stop,
             inform_Ack,
-            inform_Scanned,
+            inform_BarcodeNoHave,
             inform_Error,
             inform_Tray,
             inform_ColorSensorResult,

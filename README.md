@@ -51,7 +51,7 @@
  1. USB 포맷함 
   - 16기가 이하 USB 사용
   - 포맷함(exFAT 방식추천)
-  - USBDisk에 \\UpdateFile 폴더에 업데이트 할 파일 넣음 ("DiagnosticKitPrinter.exe") *이름 변경하지 말 것.
+  - USBDisk에 \\UpdateFiles 폴더에 업데이트 할 파일 넣음 ("DiagnosticKitPrinter.exe") *이름 변경하지 말 것.
   - USB 꽂으면 업데이트가 진행 되고 재부팅 됨.
   - * 재부팅 되는 것 확인 후 USB제거 (제거하지 않으면 프로그램이 멈추는 현상 발생+USB 재거 시 또다시 업데이트 되는데 Fail난 후 재부팅 되고 정상작동 함.)
 

@@ -71,9 +71,9 @@ namespace TubeFeeder
                             case MessageProtocol.CMD_INFORM_ACK:
                                 LogFunction("Recived : Inform_Ack");
                                 return MessageProtocol.ReciveMessage.inform_Ack;
-                            case MessageProtocol.CMD_INFORM_SCANNED:
-                                LogFunction("Recived : Inform_scaned");
-                                return MessageProtocol.ReciveMessage.inform_Scanned;
+                            case MessageProtocol.CMD_INFORM_SCANNED:    // (MCU->컴퓨터)Kit에 바코드 없음
+                                LogFunction("Recived : inform_BarcodeNoHave");
+                                return MessageProtocol.ReciveMessage.inform_BarcodeNoHave;
                             case MessageProtocol.CMD_INFORM_ERROR:
                                 // 에러코드 별로 처리 필요
                                 LogFunction("Recived : Inform_Error");

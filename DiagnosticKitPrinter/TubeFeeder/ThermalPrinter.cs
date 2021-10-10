@@ -24,6 +24,7 @@ namespace TubeFeeder
         public const string RESULT_POSITIVE = "(P)ositive";
         public const string RESULT_NEGATIVE = "(N)egative";
         public const string RESULT_NG = "N.G.";
+        public const string BARCODE_NONE = "NONE";
 
         public List<ResultItem> resultItems = new List<ResultItem>();
         public string currentBarcode;

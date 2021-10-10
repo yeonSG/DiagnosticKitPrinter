@@ -176,7 +176,7 @@
             this.smartUpdate1.MessageTextColor = System.Drawing.Color.Blue;
             this.smartUpdate1.Restart = SmartX.SmartUpdate.RESTARTFLAG.REBOOTING;
             this.smartUpdate1.SetStartInterval = ((uint)(3000u));
-            this.smartUpdate1.TitleText = "[[[ AutoFeeder Update ]]]";
+            this.smartUpdate1.TitleText = "[[[ DiagnosticKitPrinter Update ]]]";
             this.smartUpdate1.TitleTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.smartUpdate1.ToFilePath = "Flash Disk\\Run";
             // 
@@ -523,7 +523,7 @@
             this.KeyPreview = true;
             this.Menu = this.mainMenu1;
             this.Name = "Form1";
-            this.Text = "ver0.1_20201208";
+            this.Text = "ver1.0_20211010";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.smartForm1)).EndInit();

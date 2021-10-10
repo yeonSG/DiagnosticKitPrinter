@@ -462,6 +462,16 @@ namespace TubeFeeder
                     tray3State = ((data1) & (byte)0x01) != 0;
                     Tray_update();
                     break;
+                case MessageProtocol.ReciveMessage.inform_BarcodeNoHave:
+                    {
+                        bool isComplete = m_resultManager.setCurrentBarcode(ResultManager.BARCODE_NONE);
+                        if (isComplete)
+                        {
+                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                            m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
+                        }
+                    }
+                    break;
                 case MessageProtocol.ReciveMessage.inform_ColorSensorResult:
                     {
                         string result;
