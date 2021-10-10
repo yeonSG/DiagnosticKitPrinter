@@ -284,10 +284,14 @@ namespace TubeFeeder
             testByte = ThermalPrinterCommand.stringToByteArray("Barcode\t\t : " + barcode);
             SendMessage(testByte);
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
-            testByte = ThermalPrinterCommand.stringToByteArray("Result\t\t : " + result); // (P)ositive | (N)egative | N.G
+            testByte = ThermalPrinterCommand.stringToByteArray("Result\t\t : " + result); // (P)ositive | (N)egative | N.G | RawData
             SendMessage(testByte);
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
-            SendMessage(ThermalPrinterCommand.CMD_CRLF);         
+            testByte = ThermalPrinterCommand.stringToByteArray("**********************************");
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);   
+            cutPaper();
         }
 
         public void cutPaper() {

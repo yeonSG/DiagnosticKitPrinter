@@ -127,6 +127,7 @@ namespace TubeFeeder
             bool isComplete = m_resultManager.setCurrentBarcode(m_insertedItem);
             if(isComplete)
                 m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
 
             if (m_ScanLogFileManager.WriteValue(m_insertedItem) == false)
                 ErrorInfo("로그파일 쓰기 error");
@@ -382,6 +383,7 @@ namespace TubeFeeder
             if (m_debugMode)
             {
                 m_Printer.PrintResult("test", "result");    // test
+                m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
                 return;
                 // Application.Exit(); // test
             }
@@ -473,16 +475,21 @@ namespace TubeFeeder
                         if (isComplete)
                         {
                             m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                            m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
                         }
                     }
                     break;
                 case MessageProtocol.ReciveMessage.inform_ColorSensorRawData:
                     {
-                        string result = data1.ToString() + ", " + data2.ToString();
-                        bool isComplete = m_resultManager.setCurrentResult(result);
+                        int result;
+                        result = data1;
+                        result = result << 8;
+                        result += data2;
+                        bool isComplete = m_resultManager.setCurrentResult(result.ToString());
                         if (isComplete)
                         {
                             m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                            m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
                         }
                     }
                     break;
