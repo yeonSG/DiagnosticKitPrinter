@@ -77,7 +77,7 @@ namespace TubeFeeder
             smartTimer2.Interval = 1000;    // 1000msec
             smartTimer2.Start();
 
-            // Request Tray
+            // Request Tray State
             m_ControlBoard.SendMessage(MessageGenerator.Meesage_Read(MessageProtocol.CMD_INFORM_TRAY));
         }
 
@@ -382,6 +382,7 @@ namespace TubeFeeder
         {
             if (m_debugMode)
             {
+                MessageBox.Show("Start Clicked");
                 m_Printer.PrintResult("test", "result");    // test
                 m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
                 return;
@@ -615,9 +616,9 @@ namespace TubeFeeder
         }
 
         /* TrayState */
-        public static bool tray1State = true;
-        public static bool tray2State = true;
-        public static bool tray3State = true;
+        public static bool tray1State = false;
+        public static bool tray2State = false;
+        public static bool tray3State = false;
 
         public void Tray_update()
         {

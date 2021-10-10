@@ -14,7 +14,7 @@ namespace TubeFeeder
         static void Main()
         {
             IniFileManager.IniFileExistCheckAndGenerateDefaultIniFIle();    // Setting.ini 파일 확인 및 생성
-            // AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             Application.Run(new Form1());
         }
 
