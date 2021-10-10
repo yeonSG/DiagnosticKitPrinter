@@ -11,7 +11,7 @@
 # 시스템 구성
  - 써멀프린터 (HMK-054) [제품 링크](http://www.hwasungt.co.kr/?act=shop.goods_view&GS=13&GC=GD01), [메뉴얼 링크](http://www.hwasungt.co.kr/?act=board&bbs_code=sub4_1&bbs_mode=view&bbs_seq=32)
  - 임베디드컴퓨터&디스플래이 (IEC1000Lite-43) [제품 링크](https://www.hnsts.co.kr/Hardware/Iec1000), [메뉴얼 링크](https://www.hnsts.co.kr/UserFiles/attachment/data_down/1-iecseries.pdf)
- - 바코드 리더(3310G 하니웰(USB)) [퀵 메뉴얼-kr](https://aidc.honeywell.com/CatalogDocuments/3310-KO-QS%20Rev%20C%201-13.pdf), [메뉴얼-en](https://www.honeywellaidc.com/ko-kr/-/media/en/files-public/technical-publications/barcode-scanners/vuquest-3310g/3310-ug.pdf)
+ - 바코드 리더(3320G 하니웰(USB)) [퀵 메뉴얼-kr](https://country.honeywellaidc.com/CatalogDocuments/3320-KOKR-QS%20REV%20A.pdf), [메뉴얼-en](https://www.honeywellaidc.com/zh-cn/-/media/en/files-public/technical-publications/barcode-scanners/vuquest-3320g/3320-ug.pdf)
  - MCU
  - 기계장치(모터, 컬러센서, 트레이 센서 등등..)
  - 트레이 센서 
