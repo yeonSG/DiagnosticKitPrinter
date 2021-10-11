@@ -82,6 +82,8 @@ namespace TubeFeeder
                                 return MessageProtocol.ReciveMessage.inform_Tray;
                             case MessageProtocol.CMD_INFORM_COLORSENSOR_RESULT:
                                 return MessageProtocol.ReciveMessage.inform_ColorSensorResult;
+                            case MessageProtocol.CMD_INFORM_COLORSENSOR_SUBRESULT:
+                                return MessageProtocol.ReciveMessage.inform_ColorSensorSubResult;
                             case MessageProtocol.CMD_INFORM_COLORSENSOR_RAWDATA:
                                 return MessageProtocol.ReciveMessage.inform_ColorSensorRawData;
                             case MessageProtocol.CMD_INFORM_END:

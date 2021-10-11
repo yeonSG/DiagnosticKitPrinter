@@ -126,7 +126,7 @@ namespace TubeFeeder
             
             bool isComplete = m_resultManager.setCurrentBarcode(m_insertedItem);
             if(isComplete)
-                m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
                 m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
 
             if (m_ScanLogFileManager.WriteValue(m_insertedItem) == false)
@@ -383,7 +383,7 @@ namespace TubeFeeder
             if (m_debugMode)
             {
                 MessageBox.Show("Start Clicked");
-                m_Printer.PrintResult("test", "result");    // test
+                m_Printer.PrintResult("test", "result", "subResult");    // test
                 m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
                 return;
                 // Application.Exit(); // test
@@ -467,7 +467,7 @@ namespace TubeFeeder
                         bool isComplete = m_resultManager.setCurrentBarcode(ResultManager.BARCODE_NONE);
                         if (isComplete)
                         {
-                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
                             m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
                         }
                     }
@@ -485,7 +485,7 @@ namespace TubeFeeder
                         bool isComplete = m_resultManager.setCurrentResult(result);
                         if (isComplete)
                         {
-                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
                             m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
                         }
                     }
@@ -499,7 +499,21 @@ namespace TubeFeeder
                         bool isComplete = m_resultManager.setCurrentResult(result.ToString());
                         if (isComplete)
                         {
-                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
+                            m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
+                        }
+                    }
+                    break;
+                case MessageProtocol.ReciveMessage.inform_ColorSensorSubResult:
+                    {
+                        int subResult;
+                        subResult = data1;
+                        subResult = subResult << 8;
+                        subResult += data2;
+                        bool isComplete = m_resultManager.setCurrentSubResult(subResult.ToString());
+                        if (isComplete)
+                        {
+                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
                             m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
                         }
                     }
@@ -622,7 +636,7 @@ namespace TubeFeeder
         {
             bool isComplete = m_resultManager.setCurrentResult(ResultManager.RESULT_POSITIVE);
             if(isComplete)
-                m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult());
+                m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
         }
 
         /* TrayState */

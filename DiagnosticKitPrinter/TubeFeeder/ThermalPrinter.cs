@@ -13,10 +13,12 @@ namespace TubeFeeder
     public class ResultItem { 
     	public string Barcode { get; set; }
         public string Result { get; set; }
+        public string SubResult { get; set; }
 
-        public ResultItem(string barcode, string result) {
+        public ResultItem(string barcode, string result, string subResult) {
 		    Barcode = barcode;
             Result = result;
+            SubResult = subResult;
 	    }
     }
 
@@ -29,9 +31,14 @@ namespace TubeFeeder
         public List<ResultItem> resultItems = new List<ResultItem>();
         public string currentBarcode;
         public string currentResult;
+        public string currentSubResult;
 
         public bool setCurrentResult(string result) {
             currentResult = result;
+            return addListIfVailid();
+        }
+        public bool setCurrentSubResult(string subResult) {
+            currentSubResult = subResult;
             return addListIfVailid();
         }
         public bool setCurrentBarcode(string barcode) {
@@ -51,22 +58,29 @@ namespace TubeFeeder
             else
                 return "";
         }
+        public string getLastSubResult() {
+            if (resultItems.Count > 0)
+                return resultItems[resultItems.Count-1].SubResult;
+            else
+                return "";
+        }
 
         public void clear() {
             resultItems.Clear(); 
             currentBarcode = "";
             currentResult = "";
+            currentSubResult = "";
         }
 
         // 유효한지 채크함
         private bool addListIfVailid() {
-            if (String.IsNullOrEmpty(currentBarcode) || String.IsNullOrEmpty(currentResult))
+            if (String.IsNullOrEmpty(currentBarcode) || String.IsNullOrEmpty(currentResult) || String.IsNullOrEmpty(currentSubResult))
                 return false;
             
             // ex) list의 마지막 값과 barcode가 갖지않으면 추가함. 
             if (true) {
-                resultItems.Add(new ResultItem(currentBarcode, currentResult));
-                currentBarcode = currentResult = "";
+                resultItems.Add(new ResultItem(currentBarcode, currentResult, currentSubResult));
+                currentBarcode = currentResult = currentSubResult = "";
             }
             return true;
         }
@@ -269,7 +283,7 @@ namespace TubeFeeder
             SendMessage(ThermalPrinterCommand.CMD_CUT_PART);
         }
 
-        public void PrintResult(string barcode, string result)
+        public void PrintResult(string barcode, string result, string subResult)
         {
             byte[] testByte;
             SendMessage(ThermalPrinterCommand.CMD_FONT_X1);
@@ -285,7 +299,10 @@ namespace TubeFeeder
             testByte = ThermalPrinterCommand.stringToByteArray("Barcode\t\t : " + barcode);
             SendMessage(testByte);
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
-            testByte = ThermalPrinterCommand.stringToByteArray("Result\t\t : " + result); // (P)ositive | (N)egative | N.G | RawData
+            testByte = ThermalPrinterCommand.stringToByteArray("T\t\t : " + result); // (P)ositive | (N)egative | N.G | RawData
+            SendMessage(testByte);
+            SendMessage(ThermalPrinterCommand.CMD_CRLF);
+            testByte = ThermalPrinterCommand.stringToByteArray("C\t\t : " + subResult); 
             SendMessage(testByte);
             SendMessage(ThermalPrinterCommand.CMD_CRLF);
             testByte = ThermalPrinterCommand.stringToByteArray("**********************************");
