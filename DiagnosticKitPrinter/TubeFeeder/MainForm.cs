@@ -79,6 +79,7 @@ namespace TubeFeeder
 
             // Request Tray State
             m_ControlBoard.SendMessage(MessageGenerator.Meesage_Read(MessageProtocol.CMD_INFORM_TRAY));
+            m_Printer.cutPaper();
         }
 
         private void ModeInit()
@@ -125,15 +126,16 @@ namespace TubeFeeder
             AddLog(m_insertedItem);
             
             bool isComplete = m_resultManager.setCurrentBarcode(m_insertedItem);
-            if(isComplete)
+            if (isComplete)
+            {
                 m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
                 m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
+            }
 
             if (m_ScanLogFileManager.WriteValue(m_insertedItem) == false)
                 ErrorInfo("로그파일 쓰기 error");
             
             ClearInputBuffer();
-            
         }
 
         private void AddLog(string value)
@@ -420,7 +422,7 @@ namespace TubeFeeder
         }
         private void doStop()
         {
-            m_Printer.cutPaper();
+            // m_Printer.cutPaper();
             m_resultManager.clear();
             // setIndicatorColor(Color.Gray);
         }
