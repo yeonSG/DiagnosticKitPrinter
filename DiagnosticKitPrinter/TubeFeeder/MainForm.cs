@@ -122,18 +122,15 @@ namespace TubeFeeder
         private void InsertBufferStrToLogFile()
         {
             m_insertedItem = m_inputBuffer;
-
-            AddLog(m_insertedItem);
             
             bool isComplete = m_resultManager.setCurrentBarcode(m_insertedItem);
             if (isComplete)
             {
-                m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
-                m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
+                ;
             }
 
-            if (m_ScanLogFileManager.WriteValue(m_insertedItem) == false)
-                ErrorInfo("로그파일 쓰기 error");
+            // if (m_ScanLogFileManager.WriteValue(m_insertedItem) == false)
+            //     ErrorInfo("로그파일 쓰기 error");
             
             ClearInputBuffer();
         }
@@ -166,9 +163,9 @@ namespace TubeFeeder
             //     this.Invoke(dp, new object[] { value });
             // }
             // else
-            {
-                AddLog(value);
-            }
+            // {
+            //     AddLog(value);
+            // }
         }
 
         private string getBaudrateString(System.IO.Ports.SerialPort serialPort) 
@@ -190,17 +187,17 @@ namespace TubeFeeder
                     return;
 
 
-                if (m_inputBuffer.Equals(m_insertedItem) == true)
+                // if (m_inputBuffer.Equals(m_insertedItem) == true)
+                // {
+                //     // AddLog("(duplicated) " + m_insertedItem);   
+                //     ClearInputBuffer();
+                //     return; //  Do not action, When Duplicated before Input value. (중복시 아무것도 하지 않음
+                // }
+                // else
                 {
-                    // AddLog("(duplicated) " + m_insertedItem);   
-                    ClearInputBuffer();
-                    return; //  Do not action, When Duplicated before Input value. (중복시 아무것도 하지 않음
-                }
-                else
-                {
-                    m_scanCount++;
-                    m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_SCANNED));
-                    InsertBufferStrToLogFile();
+                m_scanCount++;
+                InsertBufferStrToLogFile();
+                m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_SCANNED));
                 }
             }
             else
@@ -464,13 +461,19 @@ namespace TubeFeeder
                     tray3State = ((data1) & (byte)0x01) != 0;
                     Tray_update();
                     break;
+                case MessageProtocol.ReciveMessage.order_Print: 
+                    {
+                        m_Printer.PrintResult(m_resultManager.getCurrentBarcode(), m_resultManager.getCurrentResult(), m_resultManager.getCurrentSubResult());
+                        m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
+                        m_resultManager.clear();
+                    }
+                    break;
                 case MessageProtocol.ReciveMessage.inform_BarcodeNoHave:
                     {
                         bool isComplete = m_resultManager.setCurrentBarcode(ResultManager.BARCODE_NONE);
                         if (isComplete)
                         {
-                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
-                            m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
+                            ;
                         }
                     }
                     break;
@@ -487,8 +490,7 @@ namespace TubeFeeder
                         bool isComplete = m_resultManager.setCurrentResult(result);
                         if (isComplete)
                         {
-                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
-                            m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
+                            ;
                         }
                     }
                     break;
@@ -501,8 +503,7 @@ namespace TubeFeeder
                         bool isComplete = m_resultManager.setCurrentResult(result.ToString());
                         if (isComplete)
                         {
-                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
-                            m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
+                            ;
                         }
                     }
                     break;
@@ -515,8 +516,7 @@ namespace TubeFeeder
                         bool isComplete = m_resultManager.setCurrentSubResult(subResult.ToString());
                         if (isComplete)
                         {
-                            m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
-                            m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_PRINTED));
+                            ;
                         }
                     }
                     break;
@@ -636,9 +636,6 @@ namespace TubeFeeder
 
         private void btn_Test1_Click(object sender, EventArgs e)
         {
-            bool isComplete = m_resultManager.setCurrentResult(ResultManager.RESULT_POSITIVE);
-            if(isComplete)
-                m_Printer.PrintResult(m_resultManager.getLastBarcode(), m_resultManager.getLastResult(), m_resultManager.getLastSubResult());
         }
 
         /* TrayState */

@@ -46,6 +46,25 @@ namespace TubeFeeder
             return addListIfVailid();
         }
         
+        public string getCurrentBarcode() {
+            if (String.IsNullOrEmpty(currentBarcode))
+                return BARCODE_NONE;
+            else
+                return currentBarcode;
+        }
+        public string getCurrentResult() {
+            if (String.IsNullOrEmpty(currentResult))
+                return RESULT_NG;
+            else
+                return currentResult;
+        }
+        public string getCurrentSubResult() {
+            if (String.IsNullOrEmpty(currentSubResult))
+                return RESULT_NG;
+            else
+                return currentSubResult;
+        }
+        
         public string getLastBarcode() {
             if (resultItems.Count > 0)
                 return resultItems[resultItems.Count - 1].Barcode;
