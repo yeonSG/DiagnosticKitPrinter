@@ -34,7 +34,6 @@ namespace TubeFeeder
         private string m_insertedItem = "";
 
         private DateTime m_runTime = DateTime.Now;
-        private UInt32 m_scanCount = 0;
 
         private bool m_debugMode = false;   // 디버그모드
 
@@ -123,11 +122,7 @@ namespace TubeFeeder
         {
             m_insertedItem = m_inputBuffer;
             
-            bool isComplete = m_resultManager.setCurrentBarcode(m_insertedItem);
-            if (isComplete)
-            {
-                ;
-            }
+            m_resultManager.setCurrentBarcode(m_insertedItem);
 
             // if (m_ScanLogFileManager.WriteValue(m_insertedItem) == false)
             //     ErrorInfo("로그파일 쓰기 error");
@@ -182,10 +177,8 @@ namespace TubeFeeder
             if (e.KeyChar == (char)Keys.Return)
             {
                 //MessageBox.Show("enter");// Enter key pressed
-
                 if (m_inputBuffer == "")
                     return;
-
 
                 // if (m_inputBuffer.Equals(m_insertedItem) == true)
                 // {
@@ -195,9 +188,8 @@ namespace TubeFeeder
                 // }
                 // else
                 {
-                m_scanCount++;
-                InsertBufferStrToLogFile();
-                m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_SCANNED));
+                    InsertBufferStrToLogFile();
+                    m_ControlBoard.SendMessage(MessageGenerator.Meesage_Infom(MessageProtocol.CMD_INFORM_SCANNED));
                 }
             }
             else
@@ -470,11 +462,7 @@ namespace TubeFeeder
                     break;
                 case MessageProtocol.ReciveMessage.inform_BarcodeNoHave:
                     {
-                        bool isComplete = m_resultManager.setCurrentBarcode(ResultManager.BARCODE_NONE);
-                        if (isComplete)
-                        {
-                            ;
-                        }
+                        m_resultManager.setCurrentBarcode(ResultManager.BARCODE_NONE);                        
                     }
                     break;
                 case MessageProtocol.ReciveMessage.inform_ColorSensorResult:
@@ -487,11 +475,7 @@ namespace TubeFeeder
                         else
                             result = ResultManager.RESULT_NG;
 
-                        bool isComplete = m_resultManager.setCurrentResult(result);
-                        if (isComplete)
-                        {
-                            ;
-                        }
+                        m_resultManager.setCurrentResult(result);
                     }
                     break;
                 case MessageProtocol.ReciveMessage.inform_ColorSensorRawData:
@@ -500,11 +484,8 @@ namespace TubeFeeder
                         result = data1;
                         result = result << 8;
                         result += data2;
-                        bool isComplete = m_resultManager.setCurrentResult(result.ToString());
-                        if (isComplete)
-                        {
-                            ;
-                        }
+
+                        m_resultManager.setCurrentResult(result.ToString());
                     }
                     break;
                 case MessageProtocol.ReciveMessage.inform_ColorSensorSubResult:
@@ -513,16 +494,12 @@ namespace TubeFeeder
                         subResult = data1;
                         subResult = subResult << 8;
                         subResult += data2;
-                        bool isComplete = m_resultManager.setCurrentSubResult(subResult.ToString());
-                        if (isComplete)
-                        {
-                            ;
-                        }
+
+                        m_resultManager.setCurrentSubResult(subResult.ToString());                        
                     }
                     break;
                 default:
                     break;
-
             }
         }
 

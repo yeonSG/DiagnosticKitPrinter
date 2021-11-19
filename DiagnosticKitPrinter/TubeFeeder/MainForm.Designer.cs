@@ -54,6 +54,7 @@
             this.btn_Test1 = new SmartX.SmartButton();
             this.btn_Test2 = new SmartX.SmartButton();
             this.btn_Test3 = new SmartX.SmartButton();
+            this.smartLabel_DebugText = new SmartX.SmartLabel();
             ((System.ComponentModel.ISupportInitialize)(this.smartForm1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -204,7 +205,7 @@
             this.smartLabel_VERSION.Name = "smartLabel_VERSION";
             this.smartLabel_VERSION.Size = new System.Drawing.Size(56, 18);
             this.smartLabel_VERSION.TabIndex = 90;
-            this.smartLabel_VERSION.Text = "ver 1.3";
+            this.smartLabel_VERSION.Text = "ver 1.4";
             this.smartLabel_VERSION.TextHAlign = SmartX.SmartLabel.TextHorAlign.Left;
             this.smartLabel_VERSION.TextVAlign = SmartX.SmartLabel.TextVerAlign.Middle;
             this.smartLabel_VERSION.Wordwrap = false;
@@ -497,12 +498,32 @@
             this.btn_Test3.UpImage = null;
             this.btn_Test3.Visible = false;
             // 
+            // smartLabel_DebugText
+            // 
+            this.smartLabel_DebugText.BackColor = System.Drawing.Color.Silver;
+            this.smartLabel_DebugText.BackPictureBox = null;
+            this.smartLabel_DebugText.BackPictureBox1 = null;
+            this.smartLabel_DebugText.BackPictureBox2 = null;
+            this.smartLabel_DebugText.BorderColor = System.Drawing.Color.Transparent;
+            this.smartLabel_DebugText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.smartLabel_DebugText.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.smartLabel_DebugText.InitVisible = true;
+            this.smartLabel_DebugText.LineSpacing = 0F;
+            this.smartLabel_DebugText.Location = new System.Drawing.Point(340, 153);
+            this.smartLabel_DebugText.Name = "smartLabel_DebugText";
+            this.smartLabel_DebugText.Size = new System.Drawing.Size(131, 26);
+            this.smartLabel_DebugText.TabIndex = 112;
+            this.smartLabel_DebugText.TextHAlign = SmartX.SmartLabel.TextHorAlign.Left;
+            this.smartLabel_DebugText.TextVAlign = SmartX.SmartLabel.TextVerAlign.Middle;
+            this.smartLabel_DebugText.Wordwrap = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(480, 272);
+            this.Controls.Add(this.smartLabel_DebugText);
             this.Controls.Add(this.btn_Test3);
             this.Controls.Add(this.btn_Test2);
             this.Controls.Add(this.btn_Test1);
@@ -523,7 +544,7 @@
             this.KeyPreview = true;
             this.Menu = this.mainMenu1;
             this.Name = "Form1";
-            this.Text = "ver1.3_20211028";
+            this.Text = "ver1.4_20211120";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.smartForm1)).EndInit();
@@ -555,6 +576,7 @@
         private SmartX.SmartButton btn_Test1;
         private SmartX.SmartButton btn_Test2;
         private SmartX.SmartButton btn_Test3;
+        private SmartX.SmartLabel smartLabel_DebugText;
     }
 }
 

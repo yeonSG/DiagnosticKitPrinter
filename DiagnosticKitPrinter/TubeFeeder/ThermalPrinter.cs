@@ -28,22 +28,18 @@ namespace TubeFeeder
         public const string RESULT_NG = "N.G.";
         public const string BARCODE_NONE = "NONE";
 
-        public List<ResultItem> resultItems = new List<ResultItem>();
         public string currentBarcode;
         public string currentResult;
         public string currentSubResult;
 
-        public bool setCurrentResult(string result) {
+        public void setCurrentResult(string result) {
             currentResult = result;
-            return addListIfVailid();
         }
-        public bool setCurrentSubResult(string subResult) {
+        public void setCurrentSubResult(string subResult) {
             currentSubResult = subResult;
-            return addListIfVailid();
         }
-        public bool setCurrentBarcode(string barcode) {
+        public void setCurrentBarcode(string barcode) {
             currentBarcode = barcode;
-            return addListIfVailid();
         }
         
         public string getCurrentBarcode() {
@@ -64,44 +60,19 @@ namespace TubeFeeder
             else
                 return currentSubResult;
         }
-        
-        public string getLastBarcode() {
-            if (resultItems.Count > 0)
-                return resultItems[resultItems.Count - 1].Barcode;
-            else
-                return "";
-        }
-        public string getLastResult() {
-            if (resultItems.Count > 0)
-                return resultItems[resultItems.Count-1].Result;
-            else
-                return "";
-        }
-        public string getLastSubResult() {
-            if (resultItems.Count > 0)
-                return resultItems[resultItems.Count-1].SubResult;
-            else
-                return "";
-        }
 
         public void clear() {
-            resultItems.Clear(); 
             currentBarcode = "";
             currentResult = "";
             currentSubResult = "";
         }
 
         // 유효한지 채크함
-        private bool addListIfVailid() {
+        private bool isDataComplete() {
             if (String.IsNullOrEmpty(currentBarcode) || String.IsNullOrEmpty(currentResult) || String.IsNullOrEmpty(currentSubResult))
                 return false;
-            
-            // ex) list의 마지막 값과 barcode가 갖지않으면 추가함. 
-            if (true) {
-                resultItems.Add(new ResultItem(currentBarcode, currentResult, currentSubResult));
-                currentBarcode = currentResult = currentSubResult = "";
-            }
-            return true;
+            else
+                return true;
         }
     }
     
