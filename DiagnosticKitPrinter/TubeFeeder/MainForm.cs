@@ -78,7 +78,6 @@ namespace TubeFeeder
 
             // Request Tray State
             m_ControlBoard.SendMessage(MessageGenerator.Meesage_Read(MessageProtocol.CMD_INFORM_TRAY));
-            m_Printer.cutPaper();
         }
 
         private void ModeInit()
